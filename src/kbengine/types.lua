@@ -299,7 +299,6 @@ end
 
 function FIXED_DICT:bind()
 		for k,v in pairs(self.dicttype) do
-			print("=========",k,v)
 			if type(v)=="number" then
 				self.dicttype[k]=KBEngine.datatypes[v]
 			end
