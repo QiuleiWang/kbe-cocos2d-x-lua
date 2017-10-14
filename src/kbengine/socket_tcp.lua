@@ -6,9 +6,8 @@ local STATUS_NOT_CONNECTED = "Socket is not connected"
 local STATUS_ALREADY_CONNECTED = "already connected"
 local STATUS_ALREADY_IN_PROGRESS = "Operation already in progress"
 local STATUS_TIMEOUT = "timeout"
-local timer = require("kbengine.timer")
+local timer = KBEngine.Timer
 local socket = require("socket")
-
 local _M = class("SocketTCP")
 _M.EVENT_DATA = "SOCKET_TCP_DATA"
 _M.EVENT_CLOSE = "SOCKET_TCP_CLOSE"
@@ -22,8 +21,6 @@ function _M.getTime()
 end
 
 function _M:ctor(host,port,reConnectFailure)
-	--绑定事件组件
-	cc.bind(self,"event")
     self.host = host
     self.port = port
 	self.tickScheduler = nil			-- timer for data
@@ -81,7 +78,7 @@ function _M:close( ... )
 	self.tcp:close()
 	if self.connectTimeTickScheduler then timer.unTimer(self.connectTimeTickScheduler) end
 	if self.tickScheduler then timer.unTimer(self.tickScheduler) end
-	self:dispatchEvent({name=_M.EVENT_CLOSE})
+	self:receiveState(_M.EVENT_CLOSED)
 end
 
 -- disconnect on user's own initiative.
@@ -112,19 +109,19 @@ end
 function _M:_disconnect()
 	self.isConnected = false
 	self.tcp:shutdown()
-	self:dispatchEvent({name=_M.EVENT_CLOSED})
+	self:receiveState(_M.EVENT_CLOSED)
 end
 
 function _M:_onDisconnect()
 	self.isConnected = false
-	self:dispatchEvent({name=_M.EVENT_CLOSED})
+	self:receiveState(_M.EVENT_CLOSED)
 	self:_reconnect();
 end
 
 -- connecte success, cancel the connection timerout timer
 function _M:_onConnected()
 	self.isConnected = true
-	self:dispatchEvent({name=_M.EVENT_CONNECTED})
+	self:receiveState(_M.EVENT_CONNECTED)
 	if self.connectTimeTickScheduler then timer.unTimer(self.connectTimeTickScheduler) end
 
 	local _tick = function()
@@ -144,7 +141,7 @@ function _M:_onConnected()
 				(partial and string.len(partial) == 0)
 			then return end
 			if body and partial then body = body .. partial end
-			self:dispatchEvent({name=_M.EVENT_DATA, data=(partial or body), partial=partial, body=body})
+			self:receiveMessage({data=(partial or body), partial=partial, body=body})
 		end
 	end
 
@@ -153,8 +150,20 @@ function _M:_onConnected()
 end
 
 function _M:_connectFailure(status)
-	self:dispatchEvent({name=_M.EVENT_CONNECT_FAILURE})
+	self:receiveState(_M.EVENT_CONNECT_FAILURE)
 	self:_reconnect()
+end
+
+function _M:receiveMessage(event)
+		 if self.onMessage then
+		 	self.onMessage(event)
+		 end
+end
+
+function _M:receiveState(state)
+		if self.onStatus then
+		   self.onStatus(state)
+		end
 end
 
 -- if connection is initiative, do not reconnect

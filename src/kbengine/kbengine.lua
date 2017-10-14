@@ -223,7 +223,7 @@ function _M:ctor(kbengineArgs)
 		local function update()
 			self:update()
 		end
-		KBEngine.idInterval = KBEngine.Timer.onTimer(update,kbengineArgs.updateHZ/1);
+		KBEngine.idInterval = KBEngine.Timer.onTimer(update,kbengineArgs.updateHZ/1000);
      	
 end
 
@@ -305,9 +305,8 @@ function _M:connect(ip,port)
 		if port then self.port=port end
 
 		if self.socket==nil then
-				local function onStatus(event)
-					
-					if event.name=="SOCKET_TCP_CONNECTED" then
+				local function onStatus(state)
+					if state=="SOCKET_TCP_CONNECTED" then
 					   KBEngine.Event.fire("onConnectionState", true)
 					   if KBEngine.app.socket.onopen then
 					   		KBEngine.app.socket.onopen(self)	
@@ -317,7 +316,6 @@ function _M:connect(ip,port)
 				end
 
 				local function onMessage(event)
-
 					local stream = KBEngine.MemoryStream.new(event.data)
 					if self.socket.onmessage then
 					   self.socket.onmessage(self,stream)	
@@ -326,19 +324,14 @@ function _M:connect(ip,port)
 				
 				local socket=KBEngine.Socket.new()
 				self.socket=socket
-				socket:addEventListener(KBEngine.Socket.EVENT_CONNECTED, onStatus)    
-		        socket:addEventListener(KBEngine.Socket.EVENT_CLOSE,  onStatus)
-		        socket:addEventListener(KBEngine.Socket.EVENT_CLOSED,  onStatus)
-		        socket:addEventListener(KBEngine.Socket.EVENT_CONNECT_FAILURE, onStatus)
-		        socket:addEventListener(KBEngine.Socket.EVENT_DATA,onMessage)
-		        
+				self.socket.onStatus=onStatus
+				self.socket.onMessage=onMessage
 		end
 		self.socket:connect(self.ip,self.port,false)
 end
 
 function _M:disconnect()
 		self.socket:disconnect()
-		
 end
 
 function _M:send(data)
