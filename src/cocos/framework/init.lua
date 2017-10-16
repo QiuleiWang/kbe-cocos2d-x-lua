@@ -71,8 +71,10 @@ setmetatable(cc.exports, {
 -- disable create unexpected global variable
 function cc.disable_global()    
     setmetatable(__g, {
-        __newindex = function(_, name, value)            
-            error(string.format("USE \" cc.exports.%s = value \" INSTEAD OF SET GLOBAL VARIABLE", name), 0)
+        __newindex = function(_, name, value)
+            if name~="socket" then             
+                error(string.format("USE \" cc.exports.%s = value \" INSTEAD OF SET GLOBAL VARIABLE", name), 0)
+            end
         end
     })
 end
