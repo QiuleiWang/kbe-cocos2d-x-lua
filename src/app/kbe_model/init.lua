@@ -1,0 +1,6 @@
+KBEngine.GameObject=require("kbe_model.GameObject")
+KBEngine.Account=require("kbe_model.Account")
+KBEngine.Avator=require("kbe_model.Avator")
+KBEngine.Gate=require("kbe_model.Gate")
+KBEngine.Monster=require("kbe_model.Monster")
+KBEngine.Npc=require("kbe_model.Npc")

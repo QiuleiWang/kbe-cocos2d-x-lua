@@ -1,4 +1,4 @@
-local _M=class("Account",KBEngine.Entity)
+local _M=class("Account",KBEngine.GameObject)
 function _M:__init__()
 		 _M.super.__init__(self)
 		 KBEngine.Event.fire("onLoginSuccessfully", KBEngine.app.entity_uuid, self.id, self);
