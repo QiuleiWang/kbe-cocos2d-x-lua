@@ -333,10 +333,11 @@ end
 
 local BLOB=class("BLOB",KBEBType)
 local MAILBOX=class("MAILBOX",KBEBType)
-local UNICODE=class("Unicode",KBEBType)
+local UNICODE=class("Unicode",String)
 function UNICODE:createFromStream(stream)
 	return stream:readUnicode()
 end
+
 
 _M.Vector3=Vector3
 _M.Uint64=Uint64
