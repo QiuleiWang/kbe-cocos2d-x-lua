@@ -180,6 +180,21 @@ function _M:readUnicode()
 		return __v
 end
 
+function _M:print()
+		local out=""
+		for i=self.rpos,#self.buffer do
+			out=out..string.byte(self.buffer[i])
+		end
+		print(out)
+end
+
+function _M:writeUnicode(v)
+		local size = #v
+		self:writeUint32(size)
+		local pack = string.pack(self:_getLC("A"),v)
+		self:writeBuf(pack)
+end
+
 function _M:readStream()
 		local len=self:getLength()
 		local buf = self:readBuf(len - self.rpos)
@@ -196,7 +211,7 @@ function _M:readPackXZ()
 		
 		xPackData.uv[1]=0x40000000
 		zPackData.uv[1]=0x40000000
-
+		
 		local v1 = self:readUint8()
 		local v2 = self:readUint8()
 		local v3 = self:readUint8()
@@ -302,11 +317,6 @@ function _M:writeString(v)
 		self:writeBuf(v)
 		self:writeInt8(0)
 end
-
-function _M:writeUnicode(v)
-		self:writeString(v)
-end
-
 
 function _M:readSkip(v)
 		self.rpos = self.rpos+v

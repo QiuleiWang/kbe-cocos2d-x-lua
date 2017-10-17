@@ -9,10 +9,11 @@ end
 function _M:onCreateAvatarResult(retcode, info)
 		if retcode == 0 then
 			self.avatars[info.dbid] = info;
-			self.avatars.values.push(info);
+			table.insert(self.avatars.values,info)
 			print("KBEAccount::onCreateAvatarResult: name=" .. info.name);
 		end
-		print("KBEAccount::onCreateAvatarResult: avatarsize=" .. #self.avatars.values .. ", error=" .. KBEngine.app.serverErr(retcode));
+
+		print("KBEAccount::onCreateAvatarResult: avatarsize=" .. #self.avatars.values .. ", error=" .. KBEngine.app:serverErr(retcode));
 		KBEngine.Event.fire("onCreateAvatarResult", retcode, info, self.avatars)
 end
 

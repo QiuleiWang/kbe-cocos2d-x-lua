@@ -447,7 +447,8 @@ function _M:Client_onCreatedProxies(rndUUID, eid, entityType)
 		end
 end
 
-function _M:Client_onLoginBaseappFailed(stream)
+function _M:Client_onLoginBaseappFailed(failedcode)
+		dump(KBEngine.app.serverErrs[failedcode])
 		KBEngine.ERROR_MSG("KBEngineApp::Client_onLoginBaseappFailed: failedcode(" .. KBEngine.app.serverErrs[failedcode].name .. ")!")
 		KBEngine.Event.fire("onLoginBaseappFailed", failedcode)
 end
@@ -462,7 +463,7 @@ function _M:Client_onEntityEnterWorld(stream)
 		if KBEngine.app.entity_id > 0 and eid ~= KBEngine.app.entity_id then
 			table.insert(KBEngine.app.entityIDAliasIDList,eid)
 		end
-
+		
 		local entityType
 		if #KBEngine.moduledefs > 255 then
 			entityType = stream:readUint16()

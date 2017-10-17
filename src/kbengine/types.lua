@@ -63,7 +63,10 @@ end
 
 function Number:addToStream(stream,v)
 	local funcName="write"..self.__cname
-	return stream[funcName](stream,v)
+	if stream[funcName] then
+		stream[funcName](stream,v)
+	end
+
 end
 
 function Number:parseDefaultValStr(v)

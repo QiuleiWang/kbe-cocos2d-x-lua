@@ -37,6 +37,16 @@ function _M.KBEngineArgs()
 	return args
 end
 
+function _M:serverErr(id)
+		local e = KBEngine.app.serverErrs[id]
+		
+		if e == nil then
+			return ""
+		end
+
+		return e.name .. " [" .. e.descr .. "]"
+end
+
 function _M:clearEntities(isAll)
 		KBEngine.app.controlledEntities = {}
 		if not isAll then
