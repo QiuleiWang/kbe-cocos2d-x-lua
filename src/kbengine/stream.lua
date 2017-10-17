@@ -303,6 +303,11 @@ function _M:writeString(v)
 		self:writeInt8(0)
 end
 
+function _M:writeUnicode(v)
+		self:writeString(v)
+end
+
+
 function _M:readSkip(v)
 		self.rpos = self.rpos+v
 end
