@@ -183,7 +183,7 @@ end
 function _M:print()
 		local out=""
 		for i=self.rpos,#self.buffer do
-			out=out..string.byte(self.buffer[i])
+			out=out..self.buffer[i] --string.byte(self.buffer[i])
 		end
 		print(out)
 end
@@ -244,7 +244,7 @@ function _M:readPackY()
 end
 
 function _M:writeInt8(v)
-		 self:writeBytes(string.pack("<c", v))
+		 self:writeBytes(string.pack(self:_getLC("c"), v))
 end
 
 function _M:writeInt16(v)
@@ -266,7 +266,7 @@ function _M:writeInt64(v)
 end
 
 function _M:writeUint8(v)
-		 self:writeBuf(string.pack(">b", v))
+		 self:writeBuf(string.pack(self:_getLC("b"), v))
 end
 
 function _M:writeUint16(v)
@@ -288,7 +288,7 @@ function _M:writeUint64(v)
 end
 
 function _M:writeFloat(v)
-		local __s = string.pack(">f",v)
+		local __s = string.pack(self:_getLC("f"),v)
 		self:writeBuf(__s)
 end
 
@@ -344,12 +344,11 @@ function _M:getPack(offset,length,save)
 	offset = offset or 1
 	length = length or #self.buffer
 	local temp = {}
-	local out=""
+	--local out=""
 	for i=offset,length do
 		temp[#temp+1] = string.byte(self.buffer[i])
-		out=string.format("%s-%0x",out,string.byte(self.buffer[i]))
+		--out=string.format("%s-%0x",out,string.byte(self.buffer[i]))
 	end
-	--print(out)
 	local fmt = self:_getLC("b"..#temp)
 	local pack = string.pack(fmt, unpack(temp))
 	return pack

@@ -91,6 +91,8 @@ function _M:writeInt64(v)
 		self:checkStream(8);
 		self.stream:writeInt64(v)
 end
+
+
 	
 function _M:writeUint8(v)
 		self:checkStream(1)
@@ -131,6 +133,11 @@ end
 function _M:writeBlob(v)
 		self:checkStream(#v + 4)
 		self.stream:writeBlob(v);
+end
+
+function _M:writeUnicode(v)
+		self:checkStream(#v + 4)
+		self.stream:writeUnicode(v)
 end	
 
 return _M

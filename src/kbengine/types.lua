@@ -313,7 +313,12 @@ function FIXED_DICT:createFromStream(stream)
 		local typearray=self.datatypeArray or {}
 		for i=1,#typearray do
 			local key=typearray[i]
+			
 			datas[key]=self.dicttype[key]:createFromStream(stream)
+			if key=="name" then
+				dump(self.dicttype[key])
+			   	print("name:",datas[key])
+			end
 		end
 
 		return datas;
@@ -336,9 +341,17 @@ end
 
 local BLOB=class("BLOB",KBEBType)
 local MAILBOX=class("MAILBOX",KBEBType)
-local UNICODE=class("Unicode",String)
+local UNICODE=class("Unicode",KBEBType)
 function UNICODE:createFromStream(stream)
 	return stream:readUnicode()
+end
+
+function UNICODE:addToStream(stream,v)
+		 stream:writeUnicode(v)
+end
+
+function UNICODE:isSameType(v)
+	return type(v)=="string"
 end
 
 

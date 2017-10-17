@@ -103,8 +103,7 @@ function _M:baseCall(...)
 		
 		for i=1,#args1 do
 			if args1[i]:isSameType(arguments[i + 1]) then
-				print("arguments[i + 1]:",arguments[i + 1])
-			   args1[i]:addToStream(self.base.bundle, arguments[i + 1])
+			    args1[i]:addToStream(self.base.bundle, arguments[i + 1])
 			else
 				KBEngine.ERROR_MSG("KBEngine.Entity::baseCall: arg[" .. i .. "] is error!")   
 			end
