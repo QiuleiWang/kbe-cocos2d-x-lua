@@ -431,7 +431,6 @@ function _M:onUpdatePropertys_(eid, stream)
 		local currModule = KBEngine.moduledefs[entity.className]
 		
 		local pdatas = currModule.propertys
-		
 		while stream:length()>0 do
 			local utype = 0
 			if currModule.usePropertyDescrAlias then
@@ -439,31 +438,38 @@ function _M:onUpdatePropertys_(eid, stream)
 			else
 				utype = stream:readUint16()
 			end
-
 			local propertydata = pdatas[utype]
 			if propertydata==nil then return end
-			
 			local setmethod = propertydata[6]
 			local flags = propertydata[7]
 			local val = propertydata[5]:createFromStream(stream)
 			local oldval = entity[propertydata[3]]
-			KBEngine.INFO_MSG("KBEngineApp::Client_onUpdatePropertys: " .. entity.className .. "(id=" .. eid  .. " " .. propertydata[3] .. ", val=" .. val .. ")!")
+			local strValue=val
+			if type(strValue)=="table" then
+				strValue="table"
+			end
+			KBEngine.INFO_MSG("KBEngineApp::Client_onUpdatePropertys: " .. entity.className .. "(id=" .. eid  .. " " .. propertydata[3] .. ", val=" .. strValue .. ")!")
+			
 			entity[propertydata[3]] = val
 			if setmethod ~= nil and setmethod~="null" then			
 				--base类属性或者进入世界后cell类属性会触发set_*方法
 				if flags == 0x00000020 and flags == 0x00000040 then				
 					if entity.inited then
-						entity[setmethod](entity,oldval)						
+						setmethod(entity,oldval)						
 					end				
 				else				
 					if entity.inWorld then
-						entity[setmethod](entity,oldval)
+						setmethod(entity,oldval)
 						
 					end
 				end
 			end
 
 		end
+
+		print("while===end")
+
+
 end
 
 function _M:onOpenBaseapp()
@@ -645,7 +651,7 @@ function _M:getAoiEntityIDFromStream(stream)
 				return 0
 			end
 		
-			id = KBEngine.app.entityIDAliasIDList[aliasID]
+			id = KBEngine.app.entityIDAliasIDList[aliasID+1]
 		end
 		
 		return id
@@ -707,8 +713,8 @@ function _M:_updateVolatileData(entityID, x, y, z, yaw, pitch, roll, isOnGround)
 			done = true
 			KBEngine.Event.fire("updatePosition", entity)
 		end
-
-		if(done) then
+		
+		if done then
 			entity:onUpdateVolatileData()
 		end
 

@@ -216,22 +216,22 @@ function _M:readPackXZ()
 		local v2 = self:readUint8()
 		local v3 = self:readUint8()
 		local data = 0
-		data=bit.bitor(data,bit.blshift(v1,16))
-		data=bit.bitor(data,bit.blshift(v2,8))
-		data=bit.bitor(data,v3)
+		data=bit.bor(data,bit.blshift(v1,16))
+		data=bit.bor(data,bit.blshift(v2,8))
+		data=bit.bor(data,v3)
 
 		local t1=bit.blshift(bit.band(data,0x7ff000),3)
-		xPackData.uv[1]=bit.bitor(data,t1)
+		xPackData.uv[1]=bit.bor(data,t1)
 		local t1=bit.blshift(bit.band(data,0x7ff000),15)
-		zPackData.uv[1]=bit.bitor(data,t1)
+		zPackData.uv[1]=bit.bor(data,t1)
 
 		xPackData.fv[1] = xPackData.fv[1]-2.0
 		zPackData.fv[1] = zPackData.fv[1]-2.0
 
 		local t1=bit.blshift(bit.band(data,0x800000),8)
-		xPackData.uv[1]=bit.bitor(data,t1)
+		xPackData.uv[1]=bit.bor(data,t1)
 		local t1=bit.blshift(bit.band(data,0x000800),20)
-		zPackData.uv[1]=bit.bitor(data,t1)
+		zPackData.uv[1]=bit.bor(data,t1)
 		local data={}
 		data[1]=xPackData.fv[1]
 		data[2]=zPackData.fv[1]
@@ -338,6 +338,27 @@ end
 
 function _M:done()
 	self.rpos = self.wpos
+end
+
+function _M:readVector2()
+		local x=self:readInt32()
+		local y=self:readInt32()
+		return KBEngine.Vector2.new(x,y)
+end	
+
+function _M:readVector3()
+	if KBEngine.CLIENT_NO_FLOAT==1 then
+		local x=self:readInt32()
+		local y=self:readInt32()
+		local z=self:readInt32()
+		return KBEngine.Vector3.new(x,y,z)
+	else
+		local x=self:readFloat()
+		local y=self:readFloat()
+		local z=self:readFloat()
+		return KBEngine.Vector3.new(x,y,z)
+	end
+		
 end
 
 function _M:getPack(offset,length,save)

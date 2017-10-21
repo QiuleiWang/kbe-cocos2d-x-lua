@@ -27,6 +27,10 @@ function _M:reqCreateAvatar(roleType, name)
 		self:baseCall("reqCreateAvatar", roleType, name)
 end
 
+function _M:selectAvatarGame(dbid)
+		self:baseCall("selectAvatarGame", dbid)
+end
+
 return _M
 
 

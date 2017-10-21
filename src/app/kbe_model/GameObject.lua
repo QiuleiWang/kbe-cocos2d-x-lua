@@ -1,7 +1,6 @@
 local _M=class("GameObject",KBEngine.Entity)
 function _M:__init__()
-		 _M.super.__init__(self)
-		 
+		 _M.super.__init__(self)	 
 end
 
 function _M:set_HP(old)
@@ -67,9 +66,6 @@ function _M:recvDamage(attackerID, skillID, damageType, damage)
 	local entity = KBEngine.app:findEntity(attackerID)
 	KBEngine.Event.fire("recvDamage", self, entity, skillID, damageType, damage)
 end
-
-
-
 
 return _M
 

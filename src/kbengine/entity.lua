@@ -29,31 +29,32 @@ end
 function _M:callPropertysSetMethods()
 		local currModule = KBEngine.moduledefs[self.className]
 		for name,v in pairs(currModule.propertys) do
-			local propertydata = currModule.propertys[name];
-			local properUtype = propertydata[0];
-			local name = propertydata[2];
-			local setmethod = propertydata[5];
-			local flags = propertydata[6];
+			local propertydata = v
+			local properUtype = propertydata[1];
+			local name = propertydata[3];
+			local setmethod = propertydata[6];
+			local flags = propertydata[7];
 			local oldval = self[name];
-			if setmethod ~= nil then
+			if setmethod==nil then
+				print("not find method:","set_"..name)
+			end
+			if setmethod ~= nil and setmethod~="null" then
 				--base类属性或者进入世界后cell类属性会触发set_*方法
 				-- ED_FLAG_BASE_AND_CLIENT、ED_FLAG_BASE
-				if flags == 0x00000020 and flags == 0x00000040 then
+				if flags == 0x00000020 or flags == 0x00000040 then
 					if self.inited and (not self.inWorld) then
-						self[setmethod](self,oldval)
+						setmethod(self,oldval)
 					end
 				else
 					if self.inWorld then
 						
-						if flags == 0x00000008 and flags == 0x00000010 then
+						if flags == 0x00000008 or flags == 0x00000010 then
 							if self:isPlayer() then
-								self[setmethod](self,oldval)
+								setmethod(self,oldval)
 							end
 						else
-							self[setmethod](self,oldval)	
+							setmethod(self,oldval)	
 						end
-						
-						
 					end		
 				end
 
@@ -116,6 +117,7 @@ end
 function _M:cellCall(...)
 		local arguments={...}
 		if #arguments < 1 then
+			print(debug.traceback())
 			KBEngine.ERROR_MSG('KBEngine.Entity::cellCall: not fount interfaceName!');  
 			return
 		end
@@ -127,7 +129,7 @@ function _M:cellCall(...)
 		end						
 		
 		
-		local method = KBEngine.moduledefs[this.className].cell_methods[arguments[1]];
+		local method = KBEngine.moduledefs[self.className].cell_methods[arguments[1]];
 		
 		if method == nil then
 			KBEngine.ERROR_MSG("KBEngine.Entity::cellCall: The server did not find the def_method(" .. self.className + "." .. arguments[1] .. ")!");
@@ -159,8 +161,8 @@ end
 function _M:enterWorld()
 		KBEngine.INFO_MSG(self.className ..'::enterWorld: ' .. self.id)
 		self.inWorld = true
-		self.onEnterWorld()
-		KBEngine.Event.fire("onEnterWorld", self)
+		self:onEnterWorld()
+		KBEngine.Event.fire("onEnterWorld",self)
 end
 
 function _M:onEnterWorld()
@@ -170,7 +172,7 @@ end
 function _M:leaveWorld()
 		KBEngine.INFO_MSG(self.className..'::leaveWorld: '..self.id)
 		self.inWorld = false
-		self.onLeaveWorld()
+		self:onLeaveWorld()
 		KBEngine.Event.fire("onLeaveWorld", self)
 end
 
@@ -180,7 +182,7 @@ end
 
 function _M:enterSpace()
 		KBEngine.INFO_MSG(self.className ..'::enterSpace: ' ..self.id) 
-		self.onEnterSpace()
+		self:onEnterSpace()
 		KBEngine.Event.fire("onEnterSpace", self)
 end
 
@@ -190,7 +192,7 @@ end
 
 function _M:leaveSpace()
 		KBEngine.INFO_MSG(self.className ..'::leaveSpace: ' .. self.id) 
-		self.onLeaveSpace()
+		self:onLeaveSpace()
 		KBEngine.Event.fire("onLeaveSpace", self)
 end
 
@@ -199,7 +201,7 @@ function _M:onLeaveSpace()
 end
 
 function _M:set_position(old)
-		KBEngine.DEBUG_MSG(self.className .."::set_position: " ..old)
+		KBEngine.DEBUG_MSG(self.className .."::set_position: (" ..old.x..","..old.y..","..old.z..")")
 		if self:isPlayer() then
 			KBEngine.app.entityServerPos.x = self.position.x
 			KBEngine.app.entityServerPos.y = self.position.y
@@ -213,7 +215,7 @@ function _M:onUpdateVolatileData()
 end
 
 function _M:set_direction(old)
-		KBEngine.DEBUG_MSG(self.className .. "::set_direction: " .. old)
+		KBEngine.DEBUG_MSG(self.className .. "::set_direction: " .. old.x,old.y,old.z)
 		KBEngine.Event.fire("set_direction", self)
 end
 

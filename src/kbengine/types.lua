@@ -134,8 +134,9 @@ function Uint64:toString()
 		return result
 end
 
-function Uint64:isSameType(v)	
-		return v.__cname=="Uint64"
+function Uint64:isSameType(v)
+
+		return type(v)=="number"
 end
 
 local Int8=class("Int8",Number)
@@ -232,12 +233,21 @@ function Vector2:distance(pos,KBEBType)
 	return math.sqrt(x*x+y*y)
 end
 
+function Vector2:createFromStream(stream)
+	return stream:readVector2()
+end
+
 local 	Vector3 =class("Vector3",KBEBType)
 function Vector3:ctor(x,y,z)
 		 self.x=x
 		 self.y=y
 		 self.z=z
 end
+
+function Vector3:createFromStream(stream)
+	return stream:readVector3()
+end
+
 function Vector3:distance(pos)
 	local x=pos.x-self.x
 	local y=pos.y-self.y
@@ -313,12 +323,7 @@ function FIXED_DICT:createFromStream(stream)
 		local typearray=self.datatypeArray or {}
 		for i=1,#typearray do
 			local key=typearray[i]
-			
 			datas[key]=self.dicttype[key]:createFromStream(stream)
-			if key=="name" then
-				dump(self.dicttype[key])
-			   	print("name:",datas[key])
-			end
 		end
 
 		return datas;

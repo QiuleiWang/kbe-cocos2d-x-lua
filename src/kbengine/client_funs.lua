@@ -137,7 +137,7 @@ function _M:Client_onUpdateData_xz(stream)
 		
 		local xz = stream:readPackXZ()
 		
-		KBEngine.app:_updateVolatileData(eid, xz[0], KBEngine.KBE_FLT_MAX, xz[1], KBEngine.KBE_FLT_MAX, KBEngine.KBE_FLT_MAX, KBEngine.KBE_FLT_MAX, 1)
+		KBEngine.app:_updateVolatileData(eid, xz[1], KBEngine.KBE_FLT_MAX, xz[2], KBEngine.KBE_FLT_MAX, KBEngine.KBE_FLT_MAX, KBEngine.KBE_FLT_MAX, 1)
 end
 
 function _M:Client_onUpdateData_xz_ypr(stream)
@@ -149,7 +149,7 @@ function _M:Client_onUpdateData_xz_ypr(stream)
 		local p = stream:readInt8()
 		local r = stream:readInt8()
 		
-		KBEngine.app:_updateVolatileData(eid, xz[0], KBEngine.KBE_FLT_MAX, xz[1], y, p, r, 1)
+		KBEngine.app:_updateVolatileData(eid, xz[1], KBEngine.KBE_FLT_MAX, xz[2], y, p, r, 1)
 end
 
 function _M:Client_onUpdateData_xz_yp(stream)
@@ -160,7 +160,7 @@ function _M:Client_onUpdateData_xz_yp(stream)
 		local y = stream:readInt8()
 		local p = stream:readInt8()
 		
-		KBEngine.app:_updateVolatileData(eid, xz[0], KBEngine.KBE_FLT_MAX, xz[1], y, p, KBEngine.KBE_FLT_MAX, 1)
+		KBEngine.app:_updateVolatileData(eid, xz[1], KBEngine.KBE_FLT_MAX, xz[2], y, p, KBEngine.KBE_FLT_MAX, 1)
 end
 
 function _M:Client_onUpdateData_xz_yr(stream)
@@ -171,7 +171,7 @@ function _M:Client_onUpdateData_xz_yr(stream)
 		local y = stream:readInt8()
 		local r = stream:readInt8()
 		
-		KBEngine.app:_updateVolatileData(eid, xz[0], KBEngine.KBE_FLT_MAX, xz[1], y, KBEngine.KBE_FLT_MAX, r, 1)
+		KBEngine.app:_updateVolatileData(eid, xz[1], KBEngine.KBE_FLT_MAX, xz[2], y, KBEngine.KBE_FLT_MAX, r, 1)
 end
 
 function _M:Client_onUpdateData_xz_pr(stream)
@@ -182,7 +182,7 @@ function _M:Client_onUpdateData_xz_pr(stream)
 		local p = stream:readInt8()
 		local r = stream:readInt8()
 		
-		KBEngine.app:_updateVolatileData(eid, xz[0], KBEngine.KBE_FLT_MAX, xz[1], KBEngine.KBE_FLT_MAX, p, r, 1)
+		KBEngine.app:_updateVolatileData(eid, xz[1], KBEngine.KBE_FLT_MAX, xz[2], KBEngine.KBE_FLT_MAX, p, r, 1)
 end
 
 function _M:Client_onUpdateData_xz_y(stream)
@@ -192,7 +192,7 @@ function _M:Client_onUpdateData_xz_y(stream)
 
 		local y = stream:readInt8()
 		
-		KBEngine.app:_updateVolatileData(eid, xz[0], KBEngine.KBE_FLT_MAX, xz[1], y, KBEngine.KBE_FLT_MAX, KBEngine.KBE_FLT_MAX, 1)
+		KBEngine.app:_updateVolatileData(eid, xz[1], KBEngine.KBE_FLT_MAX, xz[2], y, KBEngine.KBE_FLT_MAX, KBEngine.KBE_FLT_MAX, 1)
 end
 
 function _M:Client_onUpdateData_xz_p(stream)
@@ -202,7 +202,7 @@ function _M:Client_onUpdateData_xz_p(stream)
 
 		local p = stream:readInt8()
 		
-		KBEngine.app:_updateVolatileData(eid, xz[0], KBEngine.KBE_FLT_MAX, xz[1], KBEngine.KBE_FLT_MAX, p, KBEngine.KBE_FLT_MAX, 1)
+		KBEngine.app:_updateVolatileData(eid, xz[1], KBEngine.KBE_FLT_MAX, xz[2], KBEngine.KBE_FLT_MAX, p, KBEngine.KBE_FLT_MAX, 1)
 end
 
 function _M:Client_onUpdateData_xz_r(stream)
@@ -212,7 +212,7 @@ function _M:Client_onUpdateData_xz_r(stream)
 
 		local r = stream:readInt8()
 		
-		KBEngine.app:_updateVolatileData(eid, xz[0], KBEngine.KBE_FLT_MAX, xz[1], KBEngine.KBE_FLT_MAX, KBEngine.KBE_FLT_MAX, r, 1)
+		KBEngine.app:_updateVolatileData(eid, xz[1], KBEngine.KBE_FLT_MAX, xz[2], KBEngine.KBE_FLT_MAX, KBEngine.KBE_FLT_MAX, r, 1)
 end
 
 function _M:Client_onUpdateData_xyz(stream)
@@ -221,7 +221,7 @@ function _M:Client_onUpdateData_xyz(stream)
 		local xz = stream:readPackXZ()
 		local y = stream:readPackY()
 		
-		KBEngine.app:_updateVolatileData(eid, xz[0], y, xz[1], KBEngine.KBE_FLT_MAX, KBEngine.KBE_FLT_MAX, KBEngine.KBE_FLT_MAX, 0)
+		KBEngine.app:_updateVolatileData(eid, xz[1], y, xz[2], KBEngine.KBE_FLT_MAX, KBEngine.KBE_FLT_MAX, KBEngine.KBE_FLT_MAX, 0)
 end
 
 function _M:Client_onUpdateData_xyz_ypr(stream)
@@ -234,7 +234,7 @@ function _M:Client_onUpdateData_xyz_ypr(stream)
 		local p = stream:readInt8()
 		local r = stream:readInt8()
 		
-		KBEngine.app:_updateVolatileData(eid, xz[0], y, xz[1], yaw, p, r, 0)
+		KBEngine.app:_updateVolatileData(eid, xz[1], y, xz[2], yaw, p, r, 0)
 end
 
 function _M:Client_onUpdateData_xyz_yp(stream)
@@ -246,7 +246,7 @@ function _M:Client_onUpdateData_xyz_yp(stream)
 		local yaw = stream:readInt8()
 		local p = stream:readInt8()
 		
-		KBEngine.app:_updateVolatileData(eid, xz[0], y, xz[1], yaw, p, KBEngine.KBE_FLT_MAX, 0)
+		KBEngine.app:_updateVolatileData(eid, xz[1], y, xz[2], yaw, p, KBEngine.KBE_FLT_MAX, 0)
 end
 
 function _M:Client_onUpdateData_xyz_yr(stream)
@@ -258,7 +258,7 @@ function _M:Client_onUpdateData_xyz_yr(stream)
 		local yaw = stream:readInt8()
 		local r = stream:readInt8()
 		
-		KBEngine.app:_updateVolatileData(eid, xz[0], y, xz[1], yaw, KBEngine.KBE_FLT_MAX, r, 0)
+		KBEngine.app:_updateVolatileData(eid, xz[1], y, xz[2], yaw, KBEngine.KBE_FLT_MAX, r, 0)
 end
 
 function _M:Client_onUpdateData_xyz_pr(stream)
@@ -281,7 +281,7 @@ function _M:Client_onUpdateData_xyz_y(stream)
 		
 		local yaw = stream:readInt8()
 		
-		KBEngine.app:_updateVolatileData(eid, xz[0], y, xz[1], yaw, KBEngine.KBE_FLT_MAX, KBEngine.KBE_FLT_MAX, 0)
+		KBEngine.app:_updateVolatileData(eid, xz[1], y, xz[2], yaw, KBEngine.KBE_FLT_MAX, KBEngine.KBE_FLT_MAX, 0)
 end
 
 function _M:Client_onUpdateData_xyz_p(stream)
@@ -292,7 +292,7 @@ function _M:Client_onUpdateData_xyz_p(stream)
 		
 		local p = stream:readInt8()
 		
-		KBEngine.app:_updateVolatileData(eid, xz[0], y, xz[1], KBEngine.KBE_FLT_MAX, p, KBEngine.KBE_FLT_MAX, 0)
+		KBEngine.app:_updateVolatileData(eid, xz[1], y, xz[2], KBEngine.KBE_FLT_MAX, p, KBEngine.KBE_FLT_MAX, 0)
 end
 
 function _M:Client_onUpdateData_xyz_r(stream)
@@ -300,7 +300,7 @@ function _M:Client_onUpdateData_xyz_r(stream)
 		local xz = stream:readPackXZ()
 		local y = stream:readPackY()
 		local p = stream:readInt8()
-		KBEngine.app:_updateVolatileData(eid, xz[1], y, xz[2], r, KBEngine.KBE_FLT_MAX, KBEngine.KBE_FLT_MAX, 0)
+		KBEngine.app:_updateVolatileData(eid, xz[2], y, xz[2], r, KBEngine.KBE_FLT_MAX, KBEngine.KBE_FLT_MAX, 0)
 end
 
 function _M:Client_initSpaceData(stream)
@@ -312,7 +312,7 @@ function _M:Client_initSpaceData(stream)
 			KBEngine.app:Client_setSpaceData(KBEngine.app.spaceID, key, value)
 		end
 		
-		KBEngine.INFO_MSG("KBEngineApp::Client_initSpaceData: spaceID(".. KBEngine.app.spaceID .. "), datas(" .. KBEngine.app.spacedata .. ")!")
+		-- KBEngine.INFO_MSG("KBEngineApp::Client_initSpaceData: spaceID(".. KBEngine.app.spaceID .. "), datas(" .. KBEngine.app.spacedata .. ")!")
 end
 
 function _M:Client_setSpaceData(spaceID, key, value)
@@ -339,6 +339,10 @@ function _M:Client_onReqAccountResetPasswordCB(failedcode)
 		end
 
 		KBEngine.INFO_MSG("KBEngineApp::Client_onReqAccountResetPasswordCB: " .. KBEngine.app.username .. " is successfully!");
+end
+
+function _M:Client_getSpaceData(spaceID, key)
+		return KBEngine.app.spacedata[key]
 end
 
 function _M:Client_onReqAccountBindEmailCB(failedcode)
@@ -448,8 +452,7 @@ function _M:Client_onCreatedProxies(rndUUID, eid, entityType)
 end
 
 function _M:Client_onLoginBaseappFailed(failedcode)
-		dump(KBEngine.app.serverErrs[failedcode])
-		KBEngine.ERROR_MSG("KBEngineApp::Client_onLoginBaseappFailed: failedcode(" .. KBEngine.app.serverErrs[failedcode].name .. ")!")
+		-- KBEngine.ERROR_MSG("KBEngineApp::Client_onLoginBaseappFailed: failedcode(" .. KBEngine.app.serverErrs[failedcode].name .. ")!")
 		KBEngine.Event.fire("onLoginBaseappFailed", failedcode)
 end
 
@@ -471,13 +474,13 @@ function _M:Client_onEntityEnterWorld(stream)
 			entityType = stream:readUint8()
 		end
 		
-		local isOnGround=true
+		local isOnGround=0
 		if stream:length() > 0 then
 			isOnGround = stream:readInt8()
 		end
 		
 		entityType = KBEngine.moduledefs[entityType].name
-		KBEngine.INFO_MSG("KBEngineApp::Client_onEntityEnterWorld: " ..entityType .. "(" .. eid .. "), spaceID(" .. KBEngine.app.spaceID .. "), isOnGround(" .. isOnGround .. ")!")
+		-- KBEngine.INFO_MSG("KBEngineApp::Client_onEntityEnterWorld: " ..entityType .. "(" .. eid .. "), spaceID(" .. KBEngine.app.spaceID .. "), isOnGround(" .. isOnGround .. ")!")
 		local entity = KBEngine.app.entities[eid]
 		if entity==nil then
 			local entityMessage = KBEngine.bufferedCreateEntityMessage[eid]
@@ -511,7 +514,7 @@ function _M:Client_onEntityEnterWorld(stream)
 			entity:enterWorld()
 
 			if KBEngine.app.args.isOnInitCallPropertysSetMethods then
-				entity.callPropertysSetMethods()
+				entity:callPropertysSetMethods()
 			end
 
 			entity:set_direction(entity.direction)
@@ -543,7 +546,7 @@ function _M:Client_onEntityEnterWorld(stream)
 				entity:enterWorld()
 				
 				if KBEngine.app.args.isOnInitCallPropertysSetMethods then
-					entity.callPropertysSetMethods()
+					entity:callPropertysSetMethods()
 				end
 			end
 
@@ -609,7 +612,7 @@ function _M:Client_onEntityEnterSpace(stream)
 		entity:enterSpace()
 
 end
-function _M:Client_onEntityLeaveSpace(stream)
+function _M:Client_onEntityLeaveSpace(eid)
 		local entity = KBEngine.app.entities[eid]
 		if entity == nil then
 			KBEngine.ERROR_MSG("KBEngineApp::Client_onEntityLeaveSpace: entity(" .. eid .. ") not found!")
@@ -622,10 +625,10 @@ end
 
 function _M:Client_onUpdatePropertys(stream)
 		local eid = stream:readInt32()
-		KBEngine.app:onUpdatePropertys_(eid, stream)
+		KBEngine.app:onUpdatePropertys_(eid,stream)
 end
 
-function _M:Client_onEntityDestroyed(stream)
+function _M:Client_onEntityDestroyed(eid)
 		KBEngine.INFO_MSG("KBEngineApp::Client_onEntityDestroyed: entity(" .. eid .. ")!")
 		
 		local entity = KBEngine.app.entities[eid]
@@ -711,6 +714,7 @@ end
 
 function _M:Client_onImportClientEntityDef(stream)
 		KBEngine.createDataTypeFromStreams(stream)
+		local defmethod=nil
 		while not stream:readEOF() do
 			local scriptmodule_name = stream:readString()
 			local scriptUtype = stream:readUint16()
@@ -745,6 +749,9 @@ function _M:Client_onImportClientEntityDef(stream)
 				local setmethod = "null"
 				if Class ~=nil then
 					setmethod = Class["set_" .. name] or "null"
+					if setmethod=="null" then
+						print("========not method============","set_" .. name)						
+					end
 				end
 				
 				local savedata = {properUtype, aliasID, name, defaultValStr, utype, setmethod, properFlags}
@@ -825,6 +832,10 @@ function _M:Client_onImportClientEntityDef(stream)
 				KBEngine.INFO_MSG("KBEngineApp::Client_onImportClientEntityDef: add(" .. scriptmodule_name .. "), cell_method(" .. name .. ").")
 				cell_methodsize=cell_methodsize-1
 			end
+			defmethod = KBEngine[scriptmodule_name]
+			if defmethod == nil then
+				KBEngine.INFO_MSG("KBEngineApp::Client_onImportClientEntityDef: module(" .. scriptmodule_name .. ") not found~");
+			end
 
 			for name,v in pairs(currModuleDefs.propertys) do
 				local infos = currModuleDefs.propertys[name]
@@ -834,8 +845,7 @@ function _M:Client_onImportClientEntityDef(stream)
 				local defaultValStr = infos[4]
 				local utype = infos[5]
 
-				if defmethod then
-					--todo
+				if defmethod~=nil then
 					defmethod[name] = utype:parseDefaultValStr(defaultValStr)
 				end
 
