@@ -16,17 +16,6 @@ function _M:onAvatarEnterWorld(rndUUID, eid, avatar)
     self.mapNode:addChild(self.player, 10)
     self.playerLastPos = cc.p(self.player:getPosition())
     self:fixMap()
-
-    -- self.player.attr({
-    --         x: avatar.position.x * 16,
-    --         y: avatar.position.z * 16,
-    --         anchorX: 0.5
-    --     });
-    -- self.mapNode.addChild(this.player, 10);
-    --     self.entities[avatar.id] = this.player;
-    --     self.playerLastPos = cc.p(this.player.x, this.player.y);
-        
-    --     self.fixMap();
 end
 
 function _M:installEvents()
@@ -39,9 +28,9 @@ function _M:installEvents()
     KBEngine.Event.register("onAvatarEnterWorld", self,"onAvatarEnterWorld")
     KBEngine.Event.register("onEnterWorld", self, "onEnterWorld");
     -- KBEngine.Event.register("onLeaveWorld", self, "onLeaveWorld");
-    -- KBEngine.Event.register("set_position", self, "set_position");
+    KBEngine.Event.register("set_position", self, "set_position");
     -- KBEngine.Event.register("set_direction", self, "set_direction");
-    -- KBEngine.Event.register("updatePosition", self, "updatePosition");
+    KBEngine.Event.register("updatePosition", self, "updatePosition");
     -- KBEngine.Event.register("set_HP", self, "set_HP");
     -- KBEngine.Event.register("set_MP", self, "set_MP");
     -- KBEngine.Event.register("set_HP_Max", self, "set_HP_Max");
@@ -64,6 +53,16 @@ function _M:addSpaceGeometryMapping(resPath)
     -- resPath由服务端cell/space.py中KBEngine.addSpaceGeometryMapping(self.spaceID, None, resPath)设置
     self:createScene("res/img/3/cocosjs_demo_map1.png");
     self:fixMap()
+end
+
+function _M:set_position(entity)
+        --强制将位置设置到坐标点
+        local ae = self.entities[entity.id];
+        if ae == nil then
+            return
+        end    
+        ae.x = entity.position.x * self.mapRate;
+        ae.y = entity.position.z * self.mapRate;
 end
 
 function _M:fixMap()
