@@ -467,9 +467,6 @@ function _M:onUpdatePropertys_(eid, stream)
 
 		end
 
-		print("while===end")
-
-
 end
 
 function _M:onOpenBaseapp()
@@ -713,7 +710,7 @@ function _M:_updateVolatileData(entityID, x, y, z, yaw, pitch, roll, isOnGround)
 			done = true
 			KBEngine.Event.fire("updatePosition", entity)
 		end
-		
+
 		if done then
 			entity:onUpdateVolatileData()
 		end
