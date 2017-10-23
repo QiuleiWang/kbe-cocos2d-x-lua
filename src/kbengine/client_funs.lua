@@ -304,6 +304,7 @@ function _M:Client_onUpdateData_xyz_r(stream)
 end
 
 function _M:Client_initSpaceData(stream)
+			
 		KBEngine.app:clearSpace(false)
 		KBEngine.app.spaceID = stream:readInt32()
 		while stream:length() > 0 do
@@ -312,14 +313,12 @@ function _M:Client_initSpaceData(stream)
 			KBEngine.app:Client_setSpaceData(KBEngine.app.spaceID, key, value)
 		end
 		
-		-- KBEngine.INFO_MSG("KBEngineApp::Client_initSpaceData: spaceID(".. KBEngine.app.spaceID .. "), datas(" .. KBEngine.app.spacedata .. ")!")
+		 -- KBEngine.INFO_MSG("KBEngineApp::Client_initSpaceData: spaceID(".. KBEngine.app.spaceID .. "), datas(" .. KBEngine.app.spacedata:toString() .. ")!")
 end
 
 function _M:Client_setSpaceData(spaceID, key, value)
 		KBEngine.INFO_MSG("KBEngineApp::Client_setSpaceData: spaceID(" .. spaceID.. "), key(" .. key .. "), value(" .. value .. ")!")
-		
 		KBEngine.app.spacedata[key] = value
-		
 		if key == "_mapping" then
 			KBEngine.app:addSpaceGeometryMapping(spaceID, value)
 		end
@@ -452,7 +451,7 @@ function _M:Client_onCreatedProxies(rndUUID, eid, entityType)
 end
 
 function _M:Client_onLoginBaseappFailed(failedcode)
-		-- KBEngine.ERROR_MSG("KBEngineApp::Client_onLoginBaseappFailed: failedcode(" .. KBEngine.app.serverErrs[failedcode].name .. ")!")
+		 KBEngine.ERROR_MSG("KBEngineApp::Client_onLoginBaseappFailed: failedcode(" .. KBEngine.app.serverErrs[failedcode].name .. ")!")
 		KBEngine.Event.fire("onLoginBaseappFailed", failedcode)
 end
 
@@ -480,7 +479,7 @@ function _M:Client_onEntityEnterWorld(stream)
 		end
 		
 		entityType = KBEngine.moduledefs[entityType].name
-		-- KBEngine.INFO_MSG("KBEngineApp::Client_onEntityEnterWorld: " ..entityType .. "(" .. eid .. "), spaceID(" .. KBEngine.app.spaceID .. "), isOnGround(" .. isOnGround .. ")!")
+		KBEngine.INFO_MSG("KBEngineApp::Client_onEntityEnterWorld: " ..entityType .. "(" .. eid .. "), spaceID(" .. KBEngine.app.spaceID .. "), isOnGround(" .. KBEngine.toString(isOnGround) .. ")!")
 		local entity = KBEngine.app.entities[eid]
 		if entity==nil then
 			local entityMessage = KBEngine.bufferedCreateEntityMessage[eid]
@@ -663,7 +662,8 @@ function _M:Client_onKicked(stream)
 		KBEngine.Event.fire("onKicked", failedcode)
 end
 
-function _M:Client_onImportClientMessages(stream)
+function _M:Client_onImportClientMessages(data)
+		local stream=KBEngine.MemoryStream.new(data)
 		local msgid = stream:readUint16()
 		if msgid~=KBEngine.messages.onImportClientMessages.id then return end
 		local msglen = stream:readUint16()
@@ -693,8 +693,7 @@ function _M:Client_onImportClientMessages(stream)
 					end
 				end
 
-				if #msgname > 0 then
-					--KBEngine.Message.new(5,"importClientMessages", 0, 0,{},nil)
+				if #msgname > 0 then					
 					KBEngine.messages[msgname] =KBEngine.Message.new(msgid, msgname, msglen, argtype, argstypes, handler)
 					if isClientMethod then
 						KBEngine.clientmessages[msgid] = KBEngine.messages[msgname]
@@ -750,7 +749,7 @@ function _M:Client_onImportClientEntityDef(stream)
 				if Class ~=nil then
 					setmethod = Class["set_" .. name] or "null"
 					if setmethod=="null" then
-						print("========not method============","set_" .. name)						
+						KBEngine.ERROR_MSG("========not method============".."set_" .. name)						
 					end
 				end
 				

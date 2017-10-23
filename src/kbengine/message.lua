@@ -19,6 +19,7 @@ function _M:createFromStream(msgstream)
 		end		
 		local  result = {}
 		for i=1,#self.args do
+			dump(self.args[i])
 			result[i] = self.args[i]:createFromStream(msgstream)
 		end
 		return result
@@ -29,7 +30,7 @@ function _M:handleMessage(msgstream)
 			KBEngine.ERROR_MSG("KBEngine.Message::handleMessage: interface("..self.name.."/" ..self.id..") no implement!")  
 			return;
 		end
-
+		print("handleMessage")
 		if #self.args <= 0 then
 			if self.argstype < 0 then
 				self.handler(KBEngine.app,msgstream)

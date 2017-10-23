@@ -1,4 +1,4 @@
-local _M=class("Account",KBEngine.GameObject)
+local _M=class("Monster",KBEngine.GameObject)
 function _M:__init__()
 		 _M.super.__init__(self)
 end

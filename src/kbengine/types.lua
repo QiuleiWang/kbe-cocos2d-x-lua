@@ -52,6 +52,16 @@ _M.datatype2id["FIXED_DICT"] = 18
 _M.datatype2id["ARRAY"] = 19
 ----------------- 数据类型定义
 local Number=class("Number")
+function Number:toString()
+		local outArray={}
+		for k,v in pairs(self) do
+			if type(v)~="function" and type(v)~="table" then
+				table.insert(outArray,k..":"..v)				
+			end
+		end
+		return string.format("{%s}", table.concat(outArray,','))
+end
+
 function Number:bind()
 
 end

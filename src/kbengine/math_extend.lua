@@ -1,4 +1,18 @@
 local _M=KBEngine or {}
+function _M.toString(v)
+        if type(v)=="table" then
+            return v:toString()
+        elseif type(v)=="boolean" then
+            if v then
+                return "true"
+            else
+                return "false"
+            end
+        else    
+            return v
+        end
+end
+
 function _M.clampf(value, min_inclusive, max_inclusive) 
     if min_inclusive > max_inclusive then
         local temp = min_inclusive

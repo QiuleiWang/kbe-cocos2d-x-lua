@@ -9,6 +9,16 @@ function _M.PackFloatXType:ctor()
 		self.iv =self._unionData[3]
 end
 
+function _M:clearReadBuff()
+		 local tempBuff={}
+		 for i=self.rpos,#self.buffer do
+		 	 tempBuff[#tempBuff+1]=self.buffer[i]
+		 end
+		 self.buffer=tempBuff
+		 self.rpos=1
+		 self.wpos=#self.buffer+1
+end
+
 function _M:ctor(buff)
 		self.rpos = 1
 		self.wpos = 1
@@ -59,7 +69,7 @@ function _M:writeBytes(rawByte)
 end
 
 function _M:readByteArray(len)
-	local bytes = self:getBytes(self.rpos, self.rpos + len - 1)
+	local bytes = self:getBytes(self.rpos,len)
 	return bytes
 end
 
@@ -196,12 +206,16 @@ function _M:writeUnicode(v)
 end
 
 function _M:readStream()
-		local len=self:getLength()
-		local buf = self:readBuf(len - self.rpos)
+		local len=self.wpos-self.rpos
+		local buf = self:readBuf(len)
 		return KBEngine.MemoryStream.new(buf)
 end
 
-
+function _M:getStream(len)
+		local len=len
+		local buf = self:readBuf(len)
+		return KBEngine.MemoryStream.new(buf)
+end
 
 function _M:readPackXZ()
 		local xPackData =_M.PackFloatXType.new()

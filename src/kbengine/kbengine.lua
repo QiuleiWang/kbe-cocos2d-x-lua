@@ -142,6 +142,7 @@ function _M:addSpaceGeometryMapping(spaceID, respath)
 		KBEngine.app.spaceID = spaceID
 		KBEngine.app.spaceResPath = respath
 		KBEngine.Event.fire("addSpaceGeometryMapping", respath)
+
 end
 
 function _M:clearSpace(isAll)
@@ -237,31 +238,70 @@ function _M:ctor(kbengineArgs)
      	
 end
 
-function _M:onmessage(stream)
-		while stream.rpos < stream.wpos do
-			local msgid = stream:readUint16()
-			local msgHandler = KBEngine.clientmessages[msgid]
-			if msgHandler==nil then			
-				KBEngine.ERROR_MSG("KBEngineApp::onmessage["..KBEngine.app.currserver.. "]: not found msg(" ..msgid ..")!")
-			else
-				local msglen = msgHandler.length
-				if msglen == -1 then
-					msglen = stream:readUint16()					
+function _M:onmessage(data)
+		if self.readStream==nil then
+		   self.readStream=KBEngine.MemoryStream.new(data)
+		else
+		   self.readStream:writeBuf(data)	   	
+		end
+		while self.readStream.wpos>self.readStream.rpos do
+			  local readPos=self.readStream.rpos	
+			  local msgid = self.readStream:readUint16()
+			  
+			  local msgHandler = KBEngine.clientmessages[msgid]
+			  if msgHandler==nil then
+			  	 KBEngine.ERROR_MSG("KBEngineApp::onmessage["..KBEngine.app.currserver.. "]: not found msg(" ..msgid ..")!")
+			  	self.readStream=KBEngine.MemoryStream.new() 
+			  	break  
+			  end
+			  local msglen = msgHandler.length
+			  if msglen == -1 then
+					msglen = self.readStream:readUint16()					
 					-- 扩展长度
 					if msglen == 65535 then
-						msglen = stream:readUint32()
+						msglen = self.readStream:readUint32()
 					end
-				end
-				
-				local wpos = stream.wpos
-				local rpos = stream.rpos + msglen
-				stream.wpos = rpos
-				msgHandler:handleMessage(stream)
-				stream.wpos = wpos
-				stream.rpos = rpos
-			
-			end
+			  end
+			  if self.readStream:getLength()>=msglen then
+			  -- 	 local wpos = self.readStream.wpos
+				 -- local rpos = self.readStream.rpos + msglen
+				 -- self.readStream.wpos = rpos
+				 local stream=self.readStream:getStream(msglen)
+			  	 msgHandler:handleMessage(stream)
+			  -- 	 self.readStream.wpos = wpos
+				 -- self.readStream.rpos = rpos
+			  	 self.readStream:clearReadBuff()
+			  else	
+			  	 self.readStream:readSkip(-readPos)
+			  	 return
+			  end
 		end
+
+		-- while self.readStream.rpos < self.readStream.wpos do
+		-- 	local msgid = self.readStream:readUint16()
+		-- 	local msgHandler = KBEngine.clientmessages[msgid]
+		-- 	if msgHandler==nil then			
+		-- 		KBEngine.ERROR_MSG("KBEngineApp::onmessage["..KBEngine.app.currserver.. "]: not found msg(" ..msgid ..")!")
+
+		-- 	else
+		-- 		local msglen = msgHandler.length
+		-- 		if msglen == -1 then
+		-- 			msglen = stream:readUint16()					
+		-- 			-- 扩展长度
+		-- 			if msglen == 65535 then
+		-- 				msglen = stream:readUint32()
+		-- 			end
+		-- 		end
+				
+		-- 		local wpos = stream.wpos
+		-- 		local rpos = stream.rpos + msglen
+		-- 		stream.wpos = rpos
+		-- 		msgHandler:handleMessage(stream)
+		-- 		stream.wpos = wpos
+		-- 		stream.rpos = rpos
+			
+		-- 	end
+		-- end
 end
 
 
@@ -325,10 +365,9 @@ function _M:connect(ip,port)
 						
 				end
 
-				local function onMessage(event)
-					local stream = KBEngine.MemoryStream.new(event.data)
+				local function onMessage(event)					
 					if self.socket.onmessage then
-					   self.socket.onmessage(self,stream)	
+					   self.socket.onmessage(self,event.data)	
 					end
 				end
 				
@@ -444,11 +483,7 @@ function _M:onUpdatePropertys_(eid, stream)
 			local flags = propertydata[7]
 			local val = propertydata[5]:createFromStream(stream)
 			local oldval = entity[propertydata[3]]
-			local strValue=val
-			if type(strValue)=="table" then
-				strValue="table"
-			end
-			KBEngine.INFO_MSG("KBEngineApp::Client_onUpdatePropertys: " .. entity.className .. "(id=" .. eid  .. " " .. propertydata[3] .. ", val=" .. strValue .. ")!")
+			KBEngine.INFO_MSG("KBEngineApp::Client_onUpdatePropertys: " .. entity.className .. "(id=" .. eid  .. " " .. propertydata[3] .. ", val=" .. KBEngine.toString(val) .. ")!")
 			
 			entity[propertydata[3]] = val
 			if setmethod ~= nil and setmethod~="null" then			
@@ -460,7 +495,6 @@ function _M:onUpdatePropertys_(eid, stream)
 				else				
 					if entity.inWorld then
 						setmethod(entity,oldval)
-						
 					end
 				end
 			end
@@ -629,7 +663,7 @@ function _M:onOpenLoginapp_createAccount()
 			KBEngine.app.socket.onmessage = KBEngine.app.Client_onImportClientMessages  
 			KBEngine.INFO_MSG("KBEngineApp::onOpenLoginapp_createAccount: start importClientMessages ...")
 			KBEngine.Event.fire("Loginapp_importClientMessages")
-		
+			
 		else
 			KBEngine.app:onImportClientMessagesCompleted()
 		end
