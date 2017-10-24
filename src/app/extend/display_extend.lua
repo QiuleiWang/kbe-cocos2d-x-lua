@@ -10,3 +10,8 @@ function _M.newLabel(text,size,color)
     label:setColor(color)
     return label
 end
+
+function _M.loadJson(path)
+	local dataStr = cc.FileUtils:getInstance():getStringFromFile(path)
+	return json.decode(dataStr)
+end

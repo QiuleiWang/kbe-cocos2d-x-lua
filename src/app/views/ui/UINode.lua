@@ -65,8 +65,8 @@ function _M:clickEventProcess(touch,event)
          local endPoint=touch:getLocation()
          local distance=cc.pGetDistance(startPoint,endPoint)
          if distance>15 then return end --可能是滑动操作
-         self.clickCallback(self)  
-                        
+         self.clickCallback(self,touch)  
+                                
 end
 
 --检查是不是点击在node的区域内
