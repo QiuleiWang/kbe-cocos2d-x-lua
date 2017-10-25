@@ -19,7 +19,6 @@ function _M:createFromStream(msgstream)
 		end		
 		local  result = {}
 		for i=1,#self.args do
-			dump(self.args[i])
 			result[i] = self.args[i]:createFromStream(msgstream)
 		end
 		return result

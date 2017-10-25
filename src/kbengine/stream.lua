@@ -280,6 +280,13 @@ function _M:writeInt64(v)
 end
 
 function _M:writeUint8(v)
+		 if type(v)=="boolean" then
+		 	if v==true then
+		 	   v=1		
+		 	else
+		 	   v=0
+		 	end
+		 end
 		 self:writeBuf(string.pack(self:_getLC("b"), v))
 end
 

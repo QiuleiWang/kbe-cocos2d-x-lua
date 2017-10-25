@@ -158,7 +158,7 @@ function _M:updatePlayerToServer()
 		if player == nil or (player.inWorld == false) or (KBEngine.app.spaceID == 0) or player.isControlled then
 			return
 		end
-
+		
 		if player.entityLastLocalPos:distance(player.position) > 0.001 or player.entityLastLocalDir:distance(player.direction) > 0.001 then
 			--记录玩家最后一次上报位置时自身当前的位置
 			player.entityLastLocalPos.x = player.position.x

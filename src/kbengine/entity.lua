@@ -3,7 +3,7 @@ function _M:ctor()
 		 self.id=0
 		 self.className=""
 		 self.position=KBEngine.Vector3.new(0,0,0)
-		 self.direction = KBEngine.Vector3.new(0.0, 0.0, 0.0)
+		 self.direction = KBEngine.Vector3.new(0, 0, 0)
 		 self.velocity = 0
 		 self.cell = nil
 		 self.base = nil

@@ -552,7 +552,7 @@ function _M:Client_onEntityEnterWorld(stream)
 		end
 end
 
-function _M:Client_onEntityLeaveWorld(stream)
+function _M:Client_onEntityLeaveWorld(eid)
 	local entity = KBEngine.app.entities[eid]
 	if entity == nil then
 		KBEngine.ERROR_MSG("KBEngineApp::Client_onEntityLeaveWorld: entity("..eid..") not found!")
