@@ -85,7 +85,7 @@ function _M:installEvents()
     -- KBEngine.Event.register("set_HP_Max", self, "set_HP_Max");
     -- KBEngine.Event.register("set_MP_Max", self, "set_MP_Max");
     -- KBEngine.Event.register("set_level", self, "set_level");
-    -- KBEngine.Event.register("set_name", self, "set_entityName");
+    KBEngine.Event.register("set_name", self, "set_entityName")
     -- KBEngine.Event.register("set_state", self, "set_state");
     KBEngine.Event.register("set_moveSpeed", self, "set_moveSpeed")
     KBEngine.Event.register("set_modelScale", self, "set_modelScale")
@@ -118,8 +118,15 @@ function _M:set_modelID(entity, v)
       return
     end 
     ae:setSprite(imgName)
-
 end
+
+function _M:set_entityName(entity, v)
+    local ae = self.entities[entity.id]
+    if ae == nil then
+      return
+    end          
+    ae:setName(v)
+end  
 
 function _M:set_modelScale(entity, v)
     local ae = self.entities[entity.id]
@@ -195,6 +202,7 @@ function _M:onEnterWorld(entity)
     if not entity:isPlayer() then
           local  ae = AvatarSprite.new(self,entity.id,"avatar/crab")
           ae:setAnchorPoint(0.5,0)
+          ae:setName(entity.name)
           ae:setPosition(entity.position.x*self.mapRate,entity.position.z*self.mapRate)
           self.mapNode:addChild(ae, 10)
           self.entities[entity.id] = ae

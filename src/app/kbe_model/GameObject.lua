@@ -4,30 +4,30 @@ function _M:__init__()
 end
 
 function _M:set_HP(old)
-	KBEngine.Event.fire("function _M:set_HP", self, self.HP)
+	KBEngine.Event.fire("set_HP", self, self.HP)
 end
 function _M:set_MP(old)
-	KBEngine.Event.fire("function _M:set_MP", self, self.MP)
+	KBEngine.Event.fire("set_MP", self, self.MP)
 end
 
 function _M:set_HP_Max(old)
-	KBEngine.Event.fire("function _M:set_HP_Max", self, self.HP_Max)
+	KBEngine.Event.fire("set_HP_Max", self, self.HP_Max)
 end
 
 function _M:set_MP_Max(old)
-	KBEngine.Event.fire("function _M:set_MP_Max", self, self.MP_Max)
+	KBEngine.Event.fire("set_MP_Max", self, self.MP_Max)
 end
 
 function _M:set_level(old)
-	KBEngine.Event.fire("function _M:set_level", self, self.level)
+	KBEngine.Event.fire("set_level", self, self.level)
 end
 
 function _M:set_name(old)
-	KBEngine.Event.fire("function _M:set_name", self, self.name)
+	KBEngine.Event.fire("set_name", self, self.name)
 end
 
 function _M:set_state(old)
-	KBEngine.Event.fire("function _M:set_state", self, self.state)
+	KBEngine.Event.fire("set_state", self, self.state)
 end
 
 function _M:set_subState(old)
@@ -47,15 +47,15 @@ function _M:set_spaceUType(old)
 end
 
 function _M:set_moveSpeed(old)
-	KBEngine.Event.fire("function _M:set_moveSpeed", self, self.moveSpeed)
+	KBEngine.Event.fire("set_moveSpeed", self, self.moveSpeed)
 end
 
 function _M:set_modelScale(old)
-	KBEngine.Event.fire("function _M:set_modelScale", self, self.modelScale)
+	KBEngine.Event.fire("set_modelScale", self, self.modelScale)
 end
 
 function _M:set_modelID(old)
-	KBEngine.Event.fire("function _M:set_modelID", self, self.modelID)
+	KBEngine.Event.fire("set_modelID", self, self.modelID)
 end
 
 function _M:set_forbids(old)

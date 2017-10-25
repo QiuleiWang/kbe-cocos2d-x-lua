@@ -2,13 +2,15 @@ local _M = class("EntitySprite",require("views/ActionSprite"))
 function _M:ctor(scene,entityID,res)
         _M.super.ctor(self,scene,res)
         self.entityID=entityID
+        
 end
 
 function _M:setName(name)
 		if self.ui_name==nil then
 		   self.ui_name=display.newLabel("",20,cc.c3b(255,255,0))
-		   self.ui_name:setAnchorPoint(0.5,-1)
-		   self.ui_name:addTo(self,1)
+		   self.ui_name:setAnchorPoint(0.5,0.5)
+		   self.ui_name:setPosition(0,40)
+		   self.ui_name:addTo(self,10)
 		end
 		self.ui_name:setString(name)
 end
