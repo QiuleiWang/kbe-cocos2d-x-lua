@@ -267,8 +267,7 @@ function _M:onmessage(data)
 			  	 msgHandler:handleMessage(stream)
 			  	 self.readStream:clearReadBuff()
 			  else
-			  	print("=========readPos=====")	
-			  	 self.readStream:readSkip(-readPos)
+			  	 self.readStream.rpos=readPos
 			  	 return
 			  end
 		end
@@ -722,11 +721,11 @@ function _M:_updateVolatileData(entityID, x, y, z, yaw, pitch, roll, isOnGround)
 end
 
 function _M.INFO_MSG(...)
-	print("INFO_MSG:",...)
+	--print("INFO_MSG:",...)
 end
 
 function _M.DEBUG_MSG(...)
-	print("DEBUG_MSG:",...)
+	--print("DEBUG_MSG:",...)
 end	
 
 function _M.ERROR_MSG(...)

@@ -12,7 +12,6 @@ function _M:onCreate()
      self:onUpdate(onUpdate)
      local function clickNodeCallback(node,touch)
             local endPoint=touch:getLocation()
-            print(endPoint.x,endPoint.y)
             self:onClickUp(endPoint) 
      end
      self.mapNode:addClickEvent(clickNodeCallback)
@@ -31,9 +30,7 @@ function _M:update(dt)
         local x=self.playerLastPos.x-playerPos.x
         local y=self.playerLastPos.y-playerPos.y
         self.playerLastPos=playerPos
-        
 
-        --local pos=self:convertToNodeSpace(cc.p(x,y))
         player.position.x = playerPos.x / self.mapRate
         player.position.y = 0
         player.position.z = playerPos.y / self.mapRate
@@ -53,13 +50,11 @@ function _M:onClickUp(pos)
 end
 
 function _M:onClickTarget(target)
-    print("onClickTarget: "..target.res)
     if self.player ~= target then
        --点击了鼠标，我们需要将角色移动到该目标的位置
       if self.player ~= nil and self.player.state ~= 1 then
          self.player:moveToTarget(target)
-      end
-         
+      end 
     end
 end
 
@@ -131,7 +126,7 @@ function _M:set_modelScale(entity, v)
     if ae ==nil then
       return
     end
-      
+
 end
 
 function _M:onLeaveWorld(entity)

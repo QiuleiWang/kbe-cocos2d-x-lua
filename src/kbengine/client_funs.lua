@@ -398,10 +398,10 @@ function _M:Client_onLoginSuccessfully(stream)
 		KBEngine.app:login_baseapp(true)
 end
 
-function _M:Client_onLoginFailed(stream)
+function _M:Client_onLoginFailed(args)
 		local failedcode = args:readUint16()
 		KBEngine.app.serverdatas = args:readBlob()
-		KBEngine.ERROR_MSG("KBEngineApp::Client_onLoginFailed: failedcode(" .. KBEngine.app.serverErrs[failedcode].name .. "), datas(" .. KBEngine.app.serverdatas.length .. ")!")
+		KBEngine.ERROR_MSG("KBEngineApp::Client_onLoginFailed: failedcode(" .. KBEngine.app.serverErrs[failedcode].name .. "), datas(" .. KBEngine.app.serverdatas .. ")!")
 		KBEngine.Event.fire("onLoginFailed", failedcode)
 end
 
@@ -451,8 +451,10 @@ function _M:Client_onCreatedProxies(rndUUID, eid, entityType)
 end
 
 function _M:Client_onLoginBaseappFailed(failedcode)
-		 KBEngine.ERROR_MSG("KBEngineApp::Client_onLoginBaseappFailed: failedcode(" .. KBEngine.app.serverErrs[failedcode].name .. ")!")
-		KBEngine.Event.fire("onLoginBaseappFailed", failedcode)
+		 local infoObject=KBEngine.app.serverErrs[failedcode] or {}
+		 local infoName=infoObject.name or ""
+		 KBEngine.ERROR_MSG("KBEngineApp::Client_onLoginBaseappFailed: failedcode(" ..failedcode..infoName .. ")!")
+		 KBEngine.Event.fire("onLoginBaseappFailed", failedcode)
 end
 
 function _M:Client_onRemoteMethodCall(stream)
@@ -477,7 +479,8 @@ function _M:Client_onEntityEnterWorld(stream)
 		if stream:length() > 0 then
 			isOnGround = stream:readInt8()
 		end
-		
+		--dump(KBEngine.moduledefs)
+		print("entityTypeentityTypeentityType:",entityType)
 		entityType = KBEngine.moduledefs[entityType].name
 		KBEngine.INFO_MSG("KBEngineApp::Client_onEntityEnterWorld: " ..entityType .. "(" .. eid .. "), spaceID(" .. KBEngine.app.spaceID .. "), isOnGround(" .. KBEngine.toString(isOnGround) .. ")!")
 		local entity = KBEngine.app.entities[eid]

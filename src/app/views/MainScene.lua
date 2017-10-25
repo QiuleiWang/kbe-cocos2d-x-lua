@@ -53,6 +53,7 @@ function _M:onScriptVersionNotMatch(clientScriptVersion, serverScriptVersion)
 end
 
 function _M:onLoginFailed(failedcode)
+		print("failedcode:",failedcode)
 		-- if(failedcode == 20)
 		-- {
 		-- 	GUIDebugLayer.debug.ERROR_MSG("Login is failed(登陆失败), err=" + KBEngine.app.serverErr(failedcode) + ", " + KBEngine.app.serverdatas);
@@ -120,12 +121,12 @@ function _M:onCreate()
 		serverScriptVersion:setAnchorPoint(0,1)
 		serverScriptVersion:setPosition(serverVersion:getPositionX(),serverVersion:getPositionY()-20)
 		serverScriptVersion:addTo(self)
-
+		
 		local clientVersion=display.newLabel("clientVersion:"..KBEngine.app.clientVersion,fontSize,color)
 		clientVersion:setAnchorPoint(0,1)
 		clientVersion:setPosition(serverVersion:getPositionX(),serverScriptVersion:getPositionY()-20)
 		clientVersion:addTo(self)
-
+		
 		local clientScriptVersion=display.newLabel("clientScriptVersion:"..KBEngine.app.clientScriptVersion,fontSize,color)
 		clientScriptVersion:setAnchorPoint(0,1)
 		clientScriptVersion:setPosition(serverVersion:getPositionX(),clientVersion:getPositionY()-20)
