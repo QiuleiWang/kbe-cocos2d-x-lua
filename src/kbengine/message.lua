@@ -27,9 +27,8 @@ end
 function _M:handleMessage(msgstream)
 		if self.handler ==nil then
 			KBEngine.ERROR_MSG("KBEngine.Message::handleMessage: interface("..self.name.."/" ..self.id..") no implement!")  
-			return;
+			return
 		end
-		print("handleMessage")
 		if #self.args <= 0 then
 			if self.argstype < 0 then
 				self.handler(KBEngine.app,msgstream)
