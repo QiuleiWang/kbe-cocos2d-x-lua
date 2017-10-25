@@ -158,7 +158,7 @@ function _M:updatePlayerToServer()
 		if player == nil or (player.inWorld == false) or (KBEngine.app.spaceID == 0) or player.isControlled then
 			return
 		end
-		
+
 		if player.entityLastLocalPos:distance(player.position) > 0.001 or player.entityLastLocalDir:distance(player.direction) > 0.001 then
 			--记录玩家最后一次上报位置时自身当前的位置
 			player.entityLastLocalPos.x = player.position.x
@@ -263,45 +263,14 @@ function _M:onmessage(data)
 					end
 			  end
 			  if self.readStream:getLength()>=msglen then
-			  -- 	 local wpos = self.readStream.wpos
-				 -- local rpos = self.readStream.rpos + msglen
-				 -- self.readStream.wpos = rpos
 				 local stream=self.readStream:getStream(msglen)
 			  	 msgHandler:handleMessage(stream)
-			  -- 	 self.readStream.wpos = wpos
-				 -- self.readStream.rpos = rpos
 			  	 self.readStream:clearReadBuff()
 			  else	
 			  	 self.readStream:readSkip(-readPos)
 			  	 return
 			  end
 		end
-
-		-- while self.readStream.rpos < self.readStream.wpos do
-		-- 	local msgid = self.readStream:readUint16()
-		-- 	local msgHandler = KBEngine.clientmessages[msgid]
-		-- 	if msgHandler==nil then			
-		-- 		KBEngine.ERROR_MSG("KBEngineApp::onmessage["..KBEngine.app.currserver.. "]: not found msg(" ..msgid ..")!")
-
-		-- 	else
-		-- 		local msglen = msgHandler.length
-		-- 		if msglen == -1 then
-		-- 			msglen = stream:readUint16()					
-		-- 			-- 扩展长度
-		-- 			if msglen == 65535 then
-		-- 				msglen = stream:readUint32()
-		-- 			end
-		-- 		end
-				
-		-- 		local wpos = stream.wpos
-		-- 		local rpos = stream.rpos + msglen
-		-- 		stream.wpos = rpos
-		-- 		msgHandler:handleMessage(stream)
-		-- 		stream.wpos = wpos
-		-- 		stream.rpos = rpos
-			
-		-- 	end
-		-- end
 end
 
 
