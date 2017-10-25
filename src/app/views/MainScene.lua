@@ -153,8 +153,6 @@ function _M:onCreate()
 		local function loginBt(sender)
 			local name=self.usernamebox:getText()
 			local password=self.passwordbox:getText()
-			name="test10001"
-			password="test10001"
 			KBEngine.Event.fire("login",name,password, "kbengine_cocos2d_js_demo")
 		end
 		local loginbt=UIButton.newButton("res/ui/btn_up.png",loginBt)
