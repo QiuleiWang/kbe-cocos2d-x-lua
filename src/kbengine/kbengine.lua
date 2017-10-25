@@ -246,8 +246,7 @@ function _M:onmessage(data)
 		end
 		while self.readStream.wpos>self.readStream.rpos do
 			  local readPos=self.readStream.rpos	
-			  local msgid = self.readStream:readUint16()
-			  
+			  local msgid = self.readStream:readUint16()			  
 			  local msgHandler = KBEngine.clientmessages[msgid]
 			  if msgHandler==nil then
 			  	 KBEngine.ERROR_MSG("KBEngineApp::onmessage["..KBEngine.app.currserver.. "]: not found msg(" ..msgid ..")!")

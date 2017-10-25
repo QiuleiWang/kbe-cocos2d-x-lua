@@ -88,8 +88,8 @@ function _M:installEvents()
     -- KBEngine.Event.register("set_name", self, "set_entityName");
     -- KBEngine.Event.register("set_state", self, "set_state");
     KBEngine.Event.register("set_moveSpeed", self, "set_moveSpeed")
-    KBEngine.Event.register("set_modelScale", self, "set_modelScale");
-    KBEngine.Event.register("set_modelID", self, "set_modelID");
+    KBEngine.Event.register("set_modelScale", self, "set_modelScale")
+    KBEngine.Event.register("set_modelID", self, "set_modelID")
     -- KBEngine.Event.register("recvDamage", self, "recvDamage");
     -- KBEngine.Event.register("otherAvatarOnJump", self, "otherAvatarOnJump");
     -- KBEngine.Event.register("onAddSkill", self, "onAddSkill");
@@ -111,12 +111,12 @@ models[80012001]="avatar/eye"
 models[80013001]="avatar/spectre"
 models[80014001]="avatar/boss"
 function _M:set_modelID(entity, v)
+    local imgName=models[v] or "avatar/clotharmor"
+    print("set_modelID:",imgName) 
     local ae = self.entities[entity.id];
     if ae ==nil then
       return
-    end
-    local imgName=models[v] or "avatar/clotharmor"
-    print("set_modelID:",imgName)  
+    end 
     ae:setSprite(imgName)
 
 end

@@ -479,8 +479,6 @@ function _M:Client_onEntityEnterWorld(stream)
 		if stream:length() > 0 then
 			isOnGround = stream:readInt8()
 		end
-		--dump(KBEngine.moduledefs)
-		print("entityTypeentityTypeentityType:",entityType)
 		entityType = KBEngine.moduledefs[entityType].name
 		KBEngine.INFO_MSG("KBEngineApp::Client_onEntityEnterWorld: " ..entityType .. "(" .. eid .. "), spaceID(" .. KBEngine.app.spaceID .. "), isOnGround(" .. KBEngine.toString(isOnGround) .. ")!")
 		local entity = KBEngine.app.entities[eid]
@@ -752,7 +750,7 @@ function _M:Client_onImportClientEntityDef(stream)
 				if Class ~=nil then
 					setmethod = Class["set_" .. name] or "null"
 					if setmethod=="null" then
-						KBEngine.ERROR_MSG("========not method============".."set_" .. name)						
+						KBEngine.WARNING_MSG("========not method============".."set_" .. name)						
 					end
 				end
 				
