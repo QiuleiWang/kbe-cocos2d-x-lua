@@ -324,13 +324,15 @@ function _M:connect(ip,port)
 
 		if self.socket==nil then
 				local function onStatus(state)
-					if state=="SOCKET_TCP_CONNECTED" then
-					   KBEngine.Event.fire("onConnectionState", true)
+					if state=="SOCKET_TCP_CONNECTED" then					   
 					   if KBEngine.app.socket.onopen then
-					   		KBEngine.app.socket.onopen(self)	
-					   end	
-					end			
-						
+					   	  KBEngine.app.socket.onopen(self)
+					   else
+					   	  KBEngine.Event.fire("onConnectionState", true)			
+					   end
+					else
+						KBEngine.Event.fire("onConnectionState", false)	
+					end									
 				end
 
 				local function onMessage(event)					

@@ -1,5 +1,21 @@
 local _M = class("WorldScene",cc.load("mvc").ViewBase)
 local AvatarSprite=require("views/AvatarSprite")
+local models={}
+models[80001001]="avatar/crab"
+models[80002001]="avatar/rat"
+models[80003001]="avatar/bat"
+models[80004001]="avatar/bat"
+models[80005001]="avatar/crab"
+models[80006001]="avatar/firefox"
+models[80007001]="avatar/skeleton2"
+models[80008001]="avatar/snake"
+models[80009001]="avatar/skeleton"
+models[80010001]="avatar/ogre"
+models[80011001]="avatar/goblin"
+models[80012001]="avatar/eye"
+models[80013001]="avatar/spectre"
+models[80014001]="avatar/boss"
+
 function _M:onCreate()
 	   self:installEvents()
      self.mapRate=16
@@ -95,24 +111,9 @@ function _M:installEvents()
     -- KBEngine.Event.register("onAddSkill", self, "onAddSkill");
 end
 
-local models={}
-models[80001001]="avatar/crab"
-models[80002001]="avatar/rat"
-models[80003001]="avatar/bat"
-models[80004001]="avatar/bat"
-models[80005001]="avatar/crab"
-models[80006001]="avatar/firefox"
-models[80007001]="avatar/skeleton2"
-models[80008001]="avatar/snake"
-models[80009001]="avatar/skeleton"
-models[80010001]="avatar/ogre"
-models[80011001]="avatar/goblin"
-models[80012001]="avatar/eye"
-models[80013001]="avatar/spectre"
-models[80014001]="avatar/boss"
+
 function _M:set_modelID(entity, v)
     local imgName=models[v] or "avatar/clotharmor"
-    print("set_modelID:",imgName) 
     local ae = self.entities[entity.id];
     if ae ==nil then
       return
@@ -133,7 +134,7 @@ function _M:set_modelScale(entity, v)
     if ae ==nil then
       return
     end
-
+    ae:setScale(v)
 end
 
 function _M:onLeaveWorld(entity)
