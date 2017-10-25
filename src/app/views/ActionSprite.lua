@@ -4,7 +4,7 @@ function _M:ctor(scene, res)
         self.scene = scene
         self.res = res
         self.animations = {}
-        print("scenescenescenescene:",self.res..".json")
+        self.speed=6
         self:setSprite(res)
 end
 
@@ -19,6 +19,29 @@ function _M:setSprite(res)
          sprite:addTo(self)
          self.sprite=sprite
 end
+
+function _M:moveToPosition(position)
+    self:_moveToPosition(position)
+end
+
+function _M:_moveToPosition(position)
+        self:stopAllActions()
+        local x = position.x - self:getPositionX()
+        local y = position.y - self:getPositionY()
+        local t = cc.pGetLength(cc.p(x,y))/16/ self.speed
+        
+        local act1 = cc.MoveTo:create(t, position)
+        local delay = cc.DelayTime:create(0.1)
+        local function callFunc()
+              --self.onMoveToPositionOver
+        end
+        local act2 = cc.CallFunc:create(callFunc)
+        local actF = cc.Sequence:create(act1, delay, act2)
+        self:runAction(actF)
+        self.isMoving = true;
+        --self:setDirection(self:calcDirection(x, y));
+end
+
 
 function _M:onEnter() 
       self.isDestroyed = false;

@@ -6,15 +6,16 @@ function _M:onCreate()
      self.entities = {};
      self.mapNode = UINode.new()
      self.mapNode:addTo(self)
-     -- local function onUpdate(dt)
-     --      self:update(dt)
-     -- end
-     -- self:onUpdate(onUpdate)
-     -- local function clickNodeCallback(node,touch)
-     --       local endPoint=touch:getLocation()
-     --       print(endPoint.x,endPoint.y) 
-     -- end
-     -- self:addClickEvent(clickNodeCallback)
+     local function onUpdate(dt)
+          self:update(dt)
+     end
+     self:onUpdate(onUpdate)
+     local function clickNodeCallback(node,touch)
+            local endPoint=touch:getLocation()
+            print(endPoint.x,endPoint.y)
+            self:onClickUp(endPoint) 
+     end
+     self.mapNode:addClickEvent(clickNodeCallback)
 end
 
 function _M:update(dt)
@@ -22,24 +23,24 @@ function _M:update(dt)
            return
         end
 
-        -- local player=KBEngine.app:player()
-        -- if (player==nil) or (not player.inWorld) then
-        --    return
-        -- end
+        local player=KBEngine.app:player()
+        if (player==nil) or (not player.inWorld) then
+           return
+        end
+        local playerPos=cc.p(self.player:getPosition())
+        local x=self.playerLastPos.x-playerPos.x
+        local y=self.playerLastPos.y-playerPos.y
+        self.playerLastPos=playerPos
+        
 
-        -- local x=self.playerLastPos.x-self.player.x
-        -- local y=self.playerLastPos.y-self.player.y
-        -- self.playerLastPos.x=self.player.x
-        -- self.playerLastPos.y=self.player.y
-
-        -- --local pos=self:convertToNodeSpace(cc.p(x,y))
-        -- player.position.x = self.player.x / 16
-        -- player.position.y = 0
-        -- player.position.z = self.player.y / 16
-        -- player.direction.x = 0
-        -- player.direction.y = 0   
-        -- player.direction.z = self.player:getDirection()
-        -- KBEngine.app.isOnGround = 1
+        --local pos=self:convertToNodeSpace(cc.p(x,y))
+        player.position.x = playerPos.x / 16
+        player.position.y = 0
+        player.position.z = playerPos.y / 16
+        player.direction.x = 0
+        player.direction.y = 0   
+        --player.direction.z = self.player:getDirection()
+        KBEngine.app.isOnGround = 1
 
 end
 
