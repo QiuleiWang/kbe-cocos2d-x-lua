@@ -5,7 +5,20 @@ function _M:ctor(scene, res)
         self.res = res
         self.animations = {}
         self.speed=6
+        self.dir=1
         self:setSprite(res)
+end
+
+function _M:getDirection()
+        return self.dir
+end
+
+function _M:setDirection(dir)
+        self.dir = dir
+end
+
+function _M:setSpeed(speed)
+        self.speed = speed
 end
 
 function _M:setSprite(res)

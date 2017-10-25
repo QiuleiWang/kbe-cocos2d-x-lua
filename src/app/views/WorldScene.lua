@@ -34,18 +34,17 @@ function _M:update(dt)
         
 
         --local pos=self:convertToNodeSpace(cc.p(x,y))
-        player.position.x = playerPos.x / 16
+        player.position.x = playerPos.x / self.mapRate
         player.position.y = 0
-        player.position.z = playerPos.y / 16
+        player.position.z = playerPos.y / self.mapRate
         player.direction.x = 0
         player.direction.y = 0   
-        --player.direction.z = self.player:getDirection()
+        player.direction.z = self.player:getDirection()
         KBEngine.app.isOnGround = 1
 
 end
 
 function _M:onClickUp(pos)
-    print("onClickUp at: " .. pos.x .. " " .. pos.y)
     --点击了鼠标，我们需要将角色移动到该位置
     if self.player ~= nil and self.player.state ~= 1 then
        self.player.chaseTarget = nil
@@ -82,10 +81,10 @@ function _M:installEvents()
     KBEngine.Event.register("addSpaceGeometryMapping",self,"addSpaceGeometryMapping")
     KBEngine.Event.register("onAvatarEnterWorld", self,"onAvatarEnterWorld")
     KBEngine.Event.register("onEnterWorld", self, "onEnterWorld");
-    -- KBEngine.Event.register("onLeaveWorld", self, "onLeaveWorld");
+    KBEngine.Event.register("onLeaveWorld", self, "onLeaveWorld");
     KBEngine.Event.register("set_position", self, "set_position");
     -- KBEngine.Event.register("set_direction", self, "set_direction");
-    --KBEngine.Event.register("updatePosition", self, "updatePosition");
+    KBEngine.Event.register("updatePosition", self, "updatePosition");
     -- KBEngine.Event.register("set_HP", self, "set_HP");
     -- KBEngine.Event.register("set_MP", self, "set_MP");
     -- KBEngine.Event.register("set_HP_Max", self, "set_HP_Max");
@@ -93,12 +92,72 @@ function _M:installEvents()
     -- KBEngine.Event.register("set_level", self, "set_level");
     -- KBEngine.Event.register("set_name", self, "set_entityName");
     -- KBEngine.Event.register("set_state", self, "set_state");
-    -- KBEngine.Event.register("set_moveSpeed", self, "set_moveSpeed");
-    -- KBEngine.Event.register("set_modelScale", self, "set_modelScale");
-    -- KBEngine.Event.register("set_modelID", self, "set_modelID");
+    KBEngine.Event.register("set_moveSpeed", self, "set_moveSpeed")
+    KBEngine.Event.register("set_modelScale", self, "set_modelScale");
+    KBEngine.Event.register("set_modelID", self, "set_modelID");
     -- KBEngine.Event.register("recvDamage", self, "recvDamage");
     -- KBEngine.Event.register("otherAvatarOnJump", self, "otherAvatarOnJump");
     -- KBEngine.Event.register("onAddSkill", self, "onAddSkill");
+end
+
+local models={}
+models[80001001]="avatar/crab"
+models[80002001]="avatar/rat"
+models[80003001]="avatar/bat"
+models[80004001]="avatar/bat"
+models[80005001]="avatar/crab"
+models[80006001]="avatar/firefox"
+models[80007001]="avatar/skeleton2"
+models[80008001]="avatar/snake"
+models[80009001]="avatar/skeleton"
+models[80010001]="avatar/ogre"
+models[80011001]="avatar/goblin"
+models[80012001]="avatar/eye"
+models[80013001]="avatar/spectre"
+models[80014001]="avatar/boss"
+function _M:set_modelID(entity, v)
+    local ae = self.entities[entity.id];
+    if ae ==nil then
+      return
+    end
+    local imgName=models[v] or "avatar/clotharmor"
+    print("set_modelID:",imgName)  
+    ae:setSprite(imgName)
+
+end
+
+function _M:set_modelScale(entity, v)
+    local ae = self.entities[entity.id]
+    if ae ==nil then
+      return
+    end
+      
+end
+
+function _M:onLeaveWorld(entity)
+    --实体离开了客户端世界，通常是因为离开了玩家的AOI
+    self.entities[entity.id]:removeFromParent()
+    self.entities[entity.id]=nil
+    
+    if entity:isPlayer() then
+       self.player = nil
+    end
+end
+
+function _M:updatePosition(entity)
+    --服务器同步到实体的新位置，我们需要将实体平滑移动到指定坐标点
+    local ae = self.entities[entity.id]
+    if ae == nil then return end
+    ae.isOnGround = entity.isOnGround
+    ae:moveToPosition(cc.p(entity.position.x * self.mapRate, entity.position.z * self.mapRate));  
+end
+
+function _M:set_moveSpeed(entity, v)
+    local ae = self.entities[entity.id]
+    if ae == nil then
+      return
+    end   
+    ae:setSpeed(v / 10.0)
 end
 
 function _M:addSpaceGeometryMapping(resPath)
@@ -112,12 +171,13 @@ end
 
 function _M:set_position(entity)
         --强制将位置设置到坐标点
-        -- local ae = self.entities[entity.id]
-        -- if ae == nil then
-        --     return
-        -- end    
-        -- ae.x = entity.position.x * self.mapRate
-        -- ae.y = entity.position.z * self.mapRate
+        local ae = self.entities[entity.id]
+        if ae == nil then
+            return
+        end    
+        local x = entity.position.x * self.mapRate
+        local y = entity.position.z * self.mapRate
+        ae:setPosition(x,y)
 end
 
 function _M:fixMap()
@@ -138,7 +198,7 @@ end
 function _M:onEnterWorld(entity)
     -- NPC/Monster/Gate等实体进入客户端世界，我们需要创建一个精灵来描述整个实体的表现
     if not entity:isPlayer() then
-          local  ae = AvatarSprite.new(self,entity.id,"avatar/clotharmor")
+          local  ae = AvatarSprite.new(self,entity.id,"avatar/crab")
           ae:setAnchorPoint(0.5,0)
           ae:setPosition(entity.position.x*self.mapRate,entity.position.z*self.mapRate)
           self.mapNode:addChild(ae, 10)

@@ -266,7 +266,8 @@ function _M:onmessage(data)
 				 local stream=self.readStream:getStream(msglen)
 			  	 msgHandler:handleMessage(stream)
 			  	 self.readStream:clearReadBuff()
-			  else	
+			  else
+			  	print("=========readPos=====")	
 			  	 self.readStream:readSkip(-readPos)
 			  	 return
 			  end
