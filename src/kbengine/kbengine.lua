@@ -480,8 +480,8 @@ function _M:onOpenBaseapp()
 		if not KBEngine.app.baseappMessageImported then
 			local bundle = KBEngine.Bundle.new()
 			bundle:newMessage(KBEngine.messages.Baseapp_importClientMessages)
-			bundle:send(KBEngine.app)
-			KBEngine.app.socket.onmessage = KBEngine.app.Client_onImportClientMessages  
+			KBEngine.app.socket.onmessage = KBEngine.app.Client_onImportClientMessages 
+			bundle:send(KBEngine.app)			 
 			KBEngine.Event.fire("Baseapp_importClientMessages")
 		else
 			KBEngine.app:onImportClientMessagesCompleted()
@@ -553,8 +553,8 @@ function _M:onOpenLoginapp_login()
 		if not KBEngine.app.loginappMessageImported then		
 			local bundle = KBEngine.Bundle.new()			
 			bundle:newMessage(KBEngine.messages.Loginapp_importClientMessages)
-			bundle:send()
 			KBEngine.app.socket.onmessage = KBEngine.app.Client_onImportClientMessages
+			bundle:send()			
 			KBEngine.INFO_MSG("KBEngineApp::onOpenLoginapp_login: start importClientMessages ...")
 			KBEngine.Event.fire("Loginapp_importClientMessages")
 			
@@ -629,8 +629,8 @@ function _M:onOpenLoginapp_createAccount()
 		if not KBEngine.app.loginappMessageImported then
 			local bundle = KBEngine.Bundle.new()
 			bundle:newMessage(KBEngine.messages.Loginapp_importClientMessages)
-			bundle:send(KBEngine.app)
-			KBEngine.app.socket.onmessage = KBEngine.app.Client_onImportClientMessages  
+			KBEngine.app.socket.onmessage = KBEngine.app.Client_onImportClientMessages 
+			bundle:send(KBEngine.app)			 
 			KBEngine.INFO_MSG("KBEngineApp::onOpenLoginapp_createAccount: start importClientMessages ...")
 			KBEngine.Event.fire("Loginapp_importClientMessages")
 			
