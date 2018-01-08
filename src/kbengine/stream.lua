@@ -235,17 +235,16 @@ function _M:readPackXZ()
 		data=bit.bor(data,v3)
 
 		local t1=bit.blshift(bit.band(data,0x7ff000),3)
-		xPackData.uv[1]=bit.bor(data,t1)
+		xPackData.uv[1]=bit.bor(xPackData.uv[1],t1)
 		local t1=bit.blshift(bit.band(data,0x7ff000),15)
-		zPackData.uv[1]=bit.bor(data,t1)
+		zPackData.uv[1]=bit.bor(zPackData.uv[1],t1)
 
 		xPackData.fv[1] = xPackData.fv[1]-2.0
 		zPackData.fv[1] = zPackData.fv[1]-2.0
-
 		local t1=bit.blshift(bit.band(data,0x800000),8)
-		xPackData.uv[1]=bit.bor(data,t1)
+		xPackData.uv[1]=bit.bor(xPackData.uv[1],t1)
 		local t1=bit.blshift(bit.band(data,0x000800),20)
-		zPackData.uv[1]=bit.bor(data,t1)
+		zPackData.uv[1]=bit.bor(zPackData.uv[1],t1)
 		local data={}
 		data[1]=xPackData.fv[1]
 		data[2]=zPackData.fv[1]
