@@ -3,10 +3,10 @@ _M.ENDIAN_LITTLE = "ENDIAN_LITTLE"
 _M.ENDIAN_BIG = "ENDIAN_BIG"
 _M.PackFloatXType=class("PackFloatXType")
 function _M.PackFloatXType:ctor()		
-		self._unionData = {{},{},{},{}}
-		self.fv =self._unionData[1] 
-		self.uv =self._unionData[2] 
-		self.iv =self._unionData[3]
+		self._unionData ={}
+		self.fv =_M.new(self._unionData) 
+		self.uv =_M.new(self._unionData)
+		self.iv =_M.new(self._unionData)				
 end
 
 function _M:clearReadBuff()
@@ -220,34 +220,52 @@ end
 function _M:readPackXZ()
 		local xPackData =_M.PackFloatXType.new()
 		local zPackData =_M.PackFloatXType.new()
-		xPackData.fv[1]=0.0
-		zPackData.fv[1]=0.0
 		
-		xPackData.uv[1]=0x40000000
-		zPackData.uv[1]=0x40000000
+		xPackData.fv:writeFloat(0.0)
+		zPackData.fv:writeFloat(0.0)
 		
-		local v1 = self:readUint8()
-		local v2 = self:readUint8()
-		local v3 = self:readUint8()
+		xPackData.uv:writeUint32(0x40000000)
+		zPackData.uv:writeUint32(0x40000000)
+
 		local data = 0
 		data=bit.bor(data,bit.blshift(v1,16))
 		data=bit.bor(data,bit.blshift(v2,8))
 		data=bit.bor(data,v3)
 
 		local t1=bit.blshift(bit.band(data,0x7ff000),3)
-		xPackData.uv[1]=bit.bor(xPackData.uv[1],t1)
-		local t1=bit.blshift(bit.band(data,0x7ff000),15)
-		zPackData.uv[1]=bit.bor(zPackData.uv[1],t1)
+		local uv=xPackData.uv:readUint32()
+		xPackData.uv.wpos=1			
+		xPackData.uv:writeUint32(bit.bor(uv,t1))
 
-		xPackData.fv[1] = xPackData.fv[1]-2.0
-		zPackData.fv[1] = zPackData.fv[1]-2.0
+		local t1=bit.blshift(bit.band(data,0x0007ff),15)		
+		local uv=zPackData.uv:readUint32()
+		zPackData.uv.wpos=1
+		zPackData.uv:writeUint32(bit.bor(uv,t1))
+
+		local fv=xPackData.fv:readFloat()
+		xPackData.fv.wpos=1		
+		xPackData.fv:writeFloat(fv-2.0)
+
+		local fv=zPackData.fv:readFloat()
+		zPackData.fv.wpos=1		
+		zPackData.fv:writeFloat(fv-2.0)
+		
 		local t1=bit.blshift(bit.band(data,0x800000),8)
-		xPackData.uv[1]=bit.bor(xPackData.uv[1],t1)
+		xPackData.uv.rpos=1
+		local uv=xPackData.uv:readUint32()
+		xPackData.uv.wpos=1
+		xPackData.uv:writeUint32(bit.bor(uv,t1))
+
 		local t1=bit.blshift(bit.band(data,0x000800),20)
-		zPackData.uv[1]=bit.bor(zPackData.uv[1],t1)
+		zPackData.uv.rpos=1
+		local uv=zPackData.uv:readUint32()
+		zPackData.uv.wpos=1
+		zPackData.uv:writeUint32(bit.bor(uv,t1))
+		xPackData.fv.rpos=1
+		zPackData.fv.rpos=1
 		local data={}
-		data[1]=xPackData.fv[1]
-		data[2]=zPackData.fv[1]
+		data[1]=xPackData.fv:readFloat()
+		data[2]=zPackData.fv:readFloat()
 		return data
 		
 end
