@@ -220,18 +220,22 @@ end
 function _M:readPackXZ()
 		local xPackData =_M.PackFloatXType.new()
 		local zPackData =_M.PackFloatXType.new()
-		
+
 		xPackData.fv:writeFloat(0.0)
 		zPackData.fv:writeFloat(0.0)
 		
 		xPackData.uv:writeUint32(0x40000000)
 		zPackData.uv:writeUint32(0x40000000)
-
+		local v1 = self:readUint8()
+		local v2 = self:readUint8()
+		local v3 = self:readUint8()
+		
 		local data = 0
 		data=bit.bor(data,bit.blshift(v1,16))
 		data=bit.bor(data,bit.blshift(v2,8))
 		data=bit.bor(data,v3)
 
+		
 		local t1=bit.blshift(bit.band(data,0x7ff000),3)
 		local uv=xPackData.uv:readUint32()
 		xPackData.uv.wpos=1			
