@@ -7,7 +7,8 @@ _M.datatype2id["BOOL"] = 2
 _M.datatype2id["DATATYPE"] = 2
 _M.datatype2id["CHAR"] = 2
 _M.datatype2id["DETAIL_TYPE"] = 2
-_M.datatype2id["MAIL_TYPE"] = 2
+_M.datatype2id["ENTITYCALL_TYPE"] = 2
+_M.datatype2id["ENTITYCALL_CALL_TYPE"] = 2
 _M.datatype2id["UINT16"] = 3
 _M.datatype2id["UNSIGNED SHORT"] = 3
 _M.datatype2id["SERVER_ERROR_CODE"] = 3
@@ -40,7 +41,7 @@ _M.datatype2id["PYTHON"] = 10
 _M.datatype2id["PY_DICT"] = 10
 _M.datatype2id["PY_TUPLE"] = 10
 _M.datatype2id["PY_LIST"] = 10
-_M.datatype2id["MAILBOX"] = 10
+_M.datatype2id["ENTITYCALL"] = 10
 _M.datatype2id["BLOB"] = 11
 _M.datatype2id["UNICODE"] = 12
 _M.datatype2id["FLOAT"] = 13
@@ -355,7 +356,7 @@ function FIXED_DICT:isSameType(v)
 end
 
 local BLOB=class("BLOB",KBEBType)
-local MAILBOX=class("MAILBOX",KBEBType)
+local ENTITYCALL=class("ENTITYCALL",KBEBType)
 local UNICODE=class("Unicode",KBEBType)
 function UNICODE:createFromStream(stream)
 	return stream:readUnicode()

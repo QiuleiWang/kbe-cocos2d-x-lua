@@ -10,8 +10,8 @@ _M.messages = {}
 _M.moduledefs={}
 _M.clientmessages={}
 _M.bufferedCreateEntityMessage={}
-_M.MAILBOX_TYPE_CELL = 0
-_M.MAILBOX_TYPE_BASE = 1
+_M.ENTITYCALL_TYPE_CELL = 0
+_M.ENTITYCALL_TYPE_BASE = 1
 
 function _M.messagesInit()
 		 _M.messages={} 	
@@ -30,6 +30,7 @@ function _M.KBEngineArgs()
 	args.ip = "127.0.0.1"
 	args.port = 20013
 	args.updateHZ = 100
+	args.serverHeartbeatTick=15
 	--Reference: http://www.kbengine.org/docs/programming/clientsdkprogramming.html, client types
 	args.clientType = 5
 	-- 在Entity初始化时是否触发属性的set_*事件(callPropertysSetMethods)
@@ -590,7 +591,7 @@ end
 function _M:update()
 	if KBEngine.app.socket == nil then return end
 	local dateObject = os.time()		
-    if((dateObject - KBEngine.app.lastTickTime) / 1000 > 15) then
+    if((dateObject - KBEngine.app.lastTickTime) / 1000 > KBEngine.app.args.serverHeartbeatTick) then
     	--如果心跳回调接收时间小于心跳发送时间，说明没有收到回调
 		-- 此时应该通知客户端掉线了
     	if KBEngine.app.lastTickCBTime < KBEngine.app.lastTickTime then
@@ -639,7 +640,7 @@ function _M:onOpenLoginapp_createAccount()
 		end
 end
 
-function _M:getAoiEntityIDFromStream(stream)
+function _M:getViewEntityIDFromStream(stream)
 		local id = 0
 		if #KBEngine.app.entityIDAliasIDList > 255 then
 			id = stream:readInt32()

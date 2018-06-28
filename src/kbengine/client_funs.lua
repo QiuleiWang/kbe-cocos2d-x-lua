@@ -5,17 +5,17 @@ function _M:Client_onReloginBaseappFailed(stream)
 end
 
 function _M:Client_onEntityLeaveWorldOptimized(stream)
-		local eid = KBEngine.app:getAoiEntityIDFromStream(stream);
+		local eid = KBEngine.app:getViewEntityIDFromStream(stream);
 		KBEngine.app:Client_onEntityLeaveWorld(eid);
 end
 
 function _M:Client_onRemoteMethodCallOptimized(stream)
-		local eid = KBEngine.app:getAoiEntityIDFromStream(stream);
+		local eid = KBEngine.app:getViewEntityIDFromStream(stream);
 		KBEngine.app:onRemoteMethodCall_(eid, stream);
 end
 
 function _M:Client_onUpdatePropertysOptimized(stream)
-		local eid = KBEngine.app:getAoiEntityIDFromStream(stream)
+		local eid = KBEngine.app:getViewEntityIDFromStream(stream)
 		KBEngine.app:onUpdatePropertys_(eid, stream)
 end
 
@@ -62,7 +62,7 @@ function _M:Client_onUpdateBasePosXZ(x, z)
 end
 
 function _M:Client_onUpdateData(stream)
-		local eid = KBEngine.app:getAoiEntityIDFromStream(stream)
+		local eid = KBEngine.app:getViewEntityIDFromStream(stream)
 		local entity = KBEngine.app.entities[eid]
 		if entity == nil then
 			KBEngine.ERROR_MSG("KBEngineApp::Client_onUpdateData: entity(" .. eid .. ") not found!")
@@ -71,7 +71,7 @@ function _M:Client_onUpdateData(stream)
 end
 
 function _M:Client_onUpdateData_ypr(stream)
-		local eid = KBEngine.app:getAoiEntityIDFromStream(stream)
+		local eid = KBEngine.app:getViewEntityIDFromStream(stream)
 		
 		local y = stream:readInt8()
 		local p = stream:readInt8()
@@ -81,7 +81,7 @@ function _M:Client_onUpdateData_ypr(stream)
 end
 
 function _M:Client_onUpdateData_yp(stream)
-		local eid = KBEngine.app:getAoiEntityIDFromStream(stream)
+		local eid = KBEngine.app:getViewEntityIDFromStream(stream)
 		
 		local y = stream:readInt8()
 		local p = stream:readInt8()
@@ -90,7 +90,7 @@ function _M:Client_onUpdateData_yp(stream)
 end
 
 function _M:Client_onUpdateData_yr(stream)
-		local eid = KBEngine.app:getAoiEntityIDFromStream(stream)
+		local eid = KBEngine.app:getViewEntityIDFromStream(stream)
 		
 		local y = stream:readInt8()
 		local r = stream:readInt8()
@@ -99,7 +99,7 @@ function _M:Client_onUpdateData_yr(stream)
 end
 
 function _M:Client_onUpdateData_pr(stream)
-		local eid = KBEngine.app:getAoiEntityIDFromStream(stream)
+		local eid = KBEngine.app:getViewEntityIDFromStream(stream)
 		
 		local p = stream:readInt8()
 		local r = stream:readInt8()
@@ -108,7 +108,7 @@ function _M:Client_onUpdateData_pr(stream)
 end
 
 function _M:Client_onUpdateData_y(stream)
-		local eid = KBEngine.app:getAoiEntityIDFromStream(stream)
+		local eid = KBEngine.app:getViewEntityIDFromStream(stream)
 		
 		local y = stream:readInt8()
 		
@@ -116,7 +116,7 @@ function _M:Client_onUpdateData_y(stream)
 end
 
 function _M:Client_onUpdateData_p(stream)
-		local eid = KBEngine.app:getAoiEntityIDFromStream(stream)
+		local eid = KBEngine.app:getViewEntityIDFromStream(stream)
 		
 		local p = stream:readInt8()
 		
@@ -125,7 +125,7 @@ end
 
 
 function _M:Client_onUpdateData_r(stream)
-		local eid = KBEngine.app:getAoiEntityIDFromStream(stream)
+		local eid = KBEngine.app:getViewEntityIDFromStream(stream)
 		
 		local r = stream:readInt8()
 		
@@ -133,7 +133,7 @@ function _M:Client_onUpdateData_r(stream)
 end
 
 function _M:Client_onUpdateData_xz(stream)
-		local eid = KBEngine.app:getAoiEntityIDFromStream(stream)
+		local eid = KBEngine.app:getViewEntityIDFromStream(stream)
 		
 		local xz = stream:readPackXZ()
 		
@@ -141,7 +141,7 @@ function _M:Client_onUpdateData_xz(stream)
 end
 
 function _M:Client_onUpdateData_xz_ypr(stream)
-		local eid = KBEngine.app:getAoiEntityIDFromStream(stream)
+		local eid = KBEngine.app:getViewEntityIDFromStream(stream)
 		
 		local xz = stream:readPackXZ()
 
@@ -153,7 +153,7 @@ function _M:Client_onUpdateData_xz_ypr(stream)
 end
 
 function _M:Client_onUpdateData_xz_yp(stream)
-		local eid = KBEngine.app:getAoiEntityIDFromStream(stream)
+		local eid = KBEngine.app:getViewEntityIDFromStream(stream)
 		
 		local xz = stream:readPackXZ()
 
@@ -164,7 +164,7 @@ function _M:Client_onUpdateData_xz_yp(stream)
 end
 
 function _M:Client_onUpdateData_xz_yr(stream)
-		local eid = KBEngine.app:getAoiEntityIDFromStream(stream)
+		local eid = KBEngine.app:getViewEntityIDFromStream(stream)
 		
 		local xz = stream:readPackXZ()
 
@@ -175,7 +175,7 @@ function _M:Client_onUpdateData_xz_yr(stream)
 end
 
 function _M:Client_onUpdateData_xz_pr(stream)
-		local eid = KBEngine.app:getAoiEntityIDFromStream(stream)
+		local eid = KBEngine.app:getViewEntityIDFromStream(stream)
 		
 		local xz = stream:readPackXZ()
 
@@ -186,7 +186,7 @@ function _M:Client_onUpdateData_xz_pr(stream)
 end
 
 function _M:Client_onUpdateData_xz_y(stream)
-		local eid = KBEngine.app:getAoiEntityIDFromStream(stream)
+		local eid = KBEngine.app:getViewEntityIDFromStream(stream)
 		
 		local xz = stream:readPackXZ()
 
@@ -196,7 +196,7 @@ function _M:Client_onUpdateData_xz_y(stream)
 end
 
 function _M:Client_onUpdateData_xz_p(stream)
-		local eid = KBEngine.app:getAoiEntityIDFromStream(stream)
+		local eid = KBEngine.app:getViewEntityIDFromStream(stream)
 		
 		local xz = stream:readPackXZ()
 
@@ -206,7 +206,7 @@ function _M:Client_onUpdateData_xz_p(stream)
 end
 
 function _M:Client_onUpdateData_xz_r(stream)
-		local eid = KBEngine.app:getAoiEntityIDFromStream(stream)
+		local eid = KBEngine.app:getViewEntityIDFromStream(stream)
 		
 		local xz = stream:readPackXZ()
 
@@ -216,7 +216,7 @@ function _M:Client_onUpdateData_xz_r(stream)
 end
 
 function _M:Client_onUpdateData_xyz(stream)
-		local eid = KBEngine.app:getAoiEntityIDFromStream(stream)
+		local eid = KBEngine.app:getViewEntityIDFromStream(stream)
 		
 		local xz = stream:readPackXZ()
 		local y = stream:readPackY()
@@ -225,7 +225,7 @@ function _M:Client_onUpdateData_xyz(stream)
 end
 
 function _M:Client_onUpdateData_xyz_ypr(stream)
-		local eid = KBEngine.app:getAoiEntityIDFromStream(stream)
+		local eid = KBEngine.app:getViewEntityIDFromStream(stream)
 		
 		local xz = stream:readPackXZ()
 		local y = stream:readPackY()
@@ -238,7 +238,7 @@ function _M:Client_onUpdateData_xyz_ypr(stream)
 end
 
 function _M:Client_onUpdateData_xyz_yp(stream)
-		local eid = KBEngine.app:getAoiEntityIDFromStream(stream)
+		local eid = KBEngine.app:getViewEntityIDFromStream(stream)
 		
 		local xz = stream:readPackXZ()
 		local y = stream:readPackY()
@@ -250,7 +250,7 @@ function _M:Client_onUpdateData_xyz_yp(stream)
 end
 
 function _M:Client_onUpdateData_xyz_yr(stream)
-		local eid = KBEngine.app:getAoiEntityIDFromStream(stream)
+		local eid = KBEngine.app:getViewEntityIDFromStream(stream)
 		
 		local xz = stream:readPackXZ()
 		local y = stream:readPackY()
@@ -262,7 +262,7 @@ function _M:Client_onUpdateData_xyz_yr(stream)
 end
 
 function _M:Client_onUpdateData_xyz_pr(stream)
-		local eid = KBEngine.app:getAoiEntityIDFromStream(stream)
+		local eid = KBEngine.app:getViewEntityIDFromStream(stream)
 		
 		local xz = stream:readPackXZ()
 		local y = stream:readPackY()
@@ -274,7 +274,7 @@ function _M:Client_onUpdateData_xyz_pr(stream)
 
 end
 function _M:Client_onUpdateData_xyz_y(stream)
-		local eid = KBEngine.app:getAoiEntityIDFromStream(stream)
+		local eid = KBEngine.app:getViewEntityIDFromStream(stream)
 		
 		local xz = stream:readPackXZ()
 		local y = stream:readPackY()
@@ -285,7 +285,7 @@ function _M:Client_onUpdateData_xyz_y(stream)
 end
 
 function _M:Client_onUpdateData_xyz_p(stream)
-		local eid = KBEngine.app:getAoiEntityIDFromStream(stream)
+		local eid = KBEngine.app:getViewEntityIDFromStream(stream)
 		
 		local xz = stream:readPackXZ()
 		local y = stream:readPackY()
@@ -296,7 +296,7 @@ function _M:Client_onUpdateData_xyz_p(stream)
 end
 
 function _M:Client_onUpdateData_xyz_r(stream)
-	    local eid = KBEngine.app:getAoiEntityIDFromStream(stream)
+	    local eid = KBEngine.app:getViewEntityIDFromStream(stream)
 		local xz = stream:readPackXZ()
 		local y = stream:readPackY()
 		local p = stream:readInt8()
@@ -420,10 +420,10 @@ function _M:Client_onCreatedProxies(rndUUID, eid, entityType)
 			local entity = runclass.new()
 			entity.id = eid
 			entity.className = entityType
-			entity.base = KBEngine.Mailbox.new()
+			entity.base = KBEngine.EntityCall.new()
 			entity.base.id = eid
 			entity.base.className = entityType
-			entity.base.type = KBEngine.MAILBOX_TYPE_BASE
+			entity.base.type = KBEngine.ENTITYCALL_TYPE_BASE
 			
 			KBEngine.app.entities[eid] = entity
 			
@@ -498,10 +498,10 @@ function _M:Client_onEntityEnterWorld(stream)
 			entity.id = eid
 			entity.className = entityType
 			
-			entity.cell = KBEngine.Mailbox.new()
+			entity.cell = KBEngine.EntityCall.new()
 			entity.cell.id = eid
 			entity.cell.className = entityType
-			entity.cell.type = KBEngine.MAILBOX_TYPE_CELL
+			entity.cell.type = KBEngine.ENTITYCALL_TYPE_CELL
 			KBEngine.app.entities[eid] = entity
 
 			KBEngine.app:Client_onUpdatePropertys(entityMessage)			
@@ -522,10 +522,10 @@ function _M:Client_onEntityEnterWorld(stream)
 
 		else
 			if not entity.inWorld then
-				entity.cell = KBEngine.Mailbox.new()
+				entity.cell = KBEngine.EntityCall.new()
 				entity.cell.id = eid
 				entity.cell.className = entityType
-				entity.cell.type = KBEngine.MAILBOX_TYPE_CELL
+				entity.cell.type = KBEngine.ENTITYCALL_TYPE_CELL
 				--[[
 				安全起见， 这里清空一下
 				如果服务端上使用giveClientTo切换控制权
@@ -647,15 +647,19 @@ function _M:Client_onEntityDestroyed(eid)
 		KBEngine.app.entities[eid]=nil
 end
 
-function _M:Client_onStreamDataStarted(stream)
-
+function _M:Client_onStreamDataStarted(id, datasize, descr)
+		KBEngine.Event.fire("onStreamDataStarted", id, datasize, descr)
 end
+
 function _M:Client_onStreamDataRecv(stream)
+		local id = stream:readUint16()
+		local data = stream:readBlob()
+		KBEngine.Event.fire("onStreamDataRecv", id, data)
 
 end
 
-function _M:Client_onStreamDataCompleted(stream)
-
+function _M:Client_onStreamDataCompleted(id)
+		KBEngine.Event.fire("onStreamDataCompleted",id)
 end
 
 function _M:Client_onKicked(stream)
@@ -758,7 +762,7 @@ function _M:Client_onImportClientEntityDef(stream)
 				
 				self_propertys[name] = savedata
 				
-				if aliasID >= 0 then					
+				if aliasID ~= -1 then					
 					self_propertys[aliasID] = savedata
 					currModuleDefs["usePropertyDescrAlias"] = true
 					
@@ -787,7 +791,7 @@ function _M:Client_onImportClientEntityDef(stream)
 				local savedata = {methodUtype, aliasID, name, args}
 				self_methods[name] = savedata
 				
-				if aliasID >= 0 then				
+				if aliasID ~= -1 then				
 					self_methods[aliasID] = savedata
 					currModuleDefs["useMethodDescrAlias"] = true				
 				else				

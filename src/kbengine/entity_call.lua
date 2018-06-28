@@ -1,36 +1,36 @@
-local _M=class("MailBox")
+local _M=class("EntityCall")
 function _M:ctor()
 		 self.id=0
 		 self.className=name
-		 self.type = KBEngine.MAILBOX_TYPE_CELL
+		 self.type = KBEngine.ENTITYCALL_TYPE_CELL
 		 self.networkInterface = KBEngine.app
 		 self.bundle = nil		 
 end
 
 function _M:isBase()
-		return self.type == KBEngine.MAILBOX_TYPE_BASE
+		return self.type == KBEngine.ENTITYCALL_TYPE_BASE
 end
 
 function _M:isCell()
 
-		return self.type == KBEngine.MAILBOX_TYPE_CELL
+		return self.type == KBEngine.ENTITYCALL_TYPE_CELL
 end
 
-function _M:newMail()
+function _M:newCall()
 		if self.bundle == nil then
 			self.bundle = KBEngine.Bundle.new()
 		end
 		if self:isCell() then
 			self.bundle:newMessage(KBEngine.messages.Baseapp_onRemoteCallCellMethodFromClient)
 		else
-			self.bundle:newMessage(KBEngine.messages.Base_onRemoteMethodCall)
+			self.bundle:newMessage(KBEngine.messages.Entity_onRemoteMethodCall)
 		end
 		self.bundle:writeInt32(self.id)
 		
 		return self.bundle
 end
 
-function _M:postMail(bundle)
+function _M:sendCall(bundle)
 		if bundle == nil then
 			bundle = self.bundle
 		end
