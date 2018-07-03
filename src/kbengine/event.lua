@@ -5,7 +5,14 @@ function EventInfo:ctor(classinst, callbackfn)
 end
 
 function EventInfo:exeEvent(...)
-		self.classinst[self.callbackfn](self.classinst,...)
+		if self.classinst[self.callbackfn] then
+			-- print(self.callbackfn.."\n")
+			-- dump({...})
+			-- print("\n")
+			self.classinst[self.callbackfn](self.classinst,...)
+		else
+			print("=========not found:"..self.callbackfn.."===========\n\n")
+		end
 end
 local _M=class("Event")
 _M._events={}

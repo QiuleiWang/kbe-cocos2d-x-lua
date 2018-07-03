@@ -6,12 +6,12 @@ _M.MESSAGE_ID_LENGTH = 2
 _M.MESSAGE_LENGTH_LENGTH = 2
 _M.CLIENT_NO_FLOAT = 0
 _M.KBE_FLT_MAX=3.402823466e+38
+_M.ENTITYCALL_TYPE_CELL = 0
+_M.ENTITYCALL_TYPE_BASE = 1
 _M.messages = {}
 _M.moduledefs={}
 _M.clientmessages={}
 _M.bufferedCreateEntityMessage={}
-_M.ENTITYCALL_TYPE_CELL = 0
-_M.ENTITYCALL_TYPE_BASE = 1
 
 function _M.messagesInit()
 		 _M.messages={} 	

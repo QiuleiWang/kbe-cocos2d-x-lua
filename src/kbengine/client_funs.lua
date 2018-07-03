@@ -325,6 +325,7 @@ function _M:Client_setSpaceData(spaceID, key, value)
 		
 		KBEngine.Event.fire("onSetSpaceData", spaceID, key, value)
 end
+
 function _M:Client_delSpaceData(spaceID, key)
 		KBEngine.INFO_MSG("KBEngineApp::Client_delSpaceData: spaceID(" .. spaceID .. "), key(" .. key .. ")!")
 		KBEngine.app.spacedata[key]=nil

@@ -295,9 +295,8 @@ function _M:writeInt32(v)
 end
 
 function _M:writeInt64(v)
-		for i=1,8 do
-			self:writeInt8(bit.band(bit.brshift(v,(i-1)*8),0xff))
-		end	
+		self:writeInt32(v.lo)
+		self:writeInt32(v.hi)	
 end
 
 function _M:writeUint8(v)
@@ -324,9 +323,8 @@ function _M:writeUint32(v)
 end
 
 function _M:writeUint64(v)
-		for i=1,8 do
-			self:writeUint8(bit.band(bit.brshift(v,(i-1)*8),0xff))
-		end	
+		self:writeUint32(v.lo)
+		self:writeUint32(v.hi)	
 end
 
 function _M:writeFloat(v)
