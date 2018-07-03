@@ -98,8 +98,8 @@ function _M:baseCall(...)
 			KBEngine.ERROR_MSG("KBEngine.Entity::baseCall: args(" ..#arguments - 1 .. "!= " ..#args1.. ") size is error!");  
 			return;
 		end
-		print("self.base:newMail")
-		self.base:newMail();
+		print("self.base:newCall")
+		self.base:newCall();
 		self.base.bundle:writeUint16(methodID)
 		
 		for i=1,#args1 do
@@ -110,7 +110,7 @@ function _M:baseCall(...)
 			end
 		end
 		
-		self.base:postMail();
+		self.base:sendCall();
 		
 end
 
@@ -145,7 +145,7 @@ function _M:cellCall(...)
 			return;
 		end
 		
-		self.cell:newMail();
+		self.cell:newCall();
 		self.cell.bundle:writeUint16(methodID)
 
 		for i=1,#args1 do
@@ -155,7 +155,7 @@ function _M:cellCall(...)
 				KBEngine.ERROR_MSG("KBEngine.Entity::cellCall: arg[" .. i .. "] is error!");
 			end
 		end
-		self.cell:postMail()
+		self.cell:sendCall()
 end
 
 function _M:enterWorld()
