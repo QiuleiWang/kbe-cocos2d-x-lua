@@ -91,9 +91,10 @@ function _M:baseCall(...)
 			KBEngine.ERROR_MSG("KBEngine.Entity::baseCall: The server did not find the def_method(" ..self.className .. "." .. arguments[1] .. ")!");
 			return;
 		end
-
+		
 		local methodID = method[1]
 		local args1 = method[4]
+		dump(arguments)
 		if #arguments- 1 ~= #args1 then
 			KBEngine.ERROR_MSG("KBEngine.Entity::baseCall: args(" ..#arguments - 1 .. "!= " ..#args1.. ") size is error!");  
 			return;

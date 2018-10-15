@@ -1,1 +1,1 @@
-/Users/qiulei/kbengine_lua_demo/runtime/mac/kbengine_lua_demo-desktop.app/Contents/MacOS/kbengine_lua_demo-desktop -workdir /Users/qiulei/kbengine_lua_demo/ -console 1
+/Users/qiulei/kbe-cocos2d-x-lua/runtime/mac/kbengine_lua_demo-desktop.app/Contents/MacOS/kbengine_lua_demo-desktop -workdir /Users/qiulei/kbe-cocos2d-x-lua/ -console 1
