@@ -1,0 +1,1 @@
+%~dp0\simulator\win32\kbengine_lua_demo.exe -workdir %~dp0 -console 1

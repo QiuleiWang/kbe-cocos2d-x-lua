@@ -12,7 +12,7 @@ cc.exports["UITableView"]= require("views.ui.UITableView")
 function MyApp:onCreate()
     math.randomseed(os.time())
     local args=KBEngine.KBEngineArgs()
-    args.ip = "116.196.86.213"
+    args.ip = "127.0.0.1"
 	args.port = 20013
     KBEngine.new(args)
 end
