@@ -5,14 +5,11 @@ function EventInfo:ctor(classinst, callbackfn)
 end
 
 function EventInfo:exeEvent(...)
-		if self.classinst[self.callbackfn] then
-			-- print(self.callbackfn.."\n")
-			-- dump({...})
-			-- print("\n")
-			self.classinst[self.callbackfn](self.classinst,...)
-		else
-			print("=========not found:"..self.callbackfn.."===========\n\n")
-		end
+	if self.classinst[self.callbackfn] ~= nil then
+		self.classinst[self.callbackfn](self.classinst,...)
+	else
+		KBEngine.ERROR_MSG("EventInfo:exeEvent: func(" .. self.callbackfn .. ") not found!")
+	end
 end
 local _M=class("Event")
 _M._events={}

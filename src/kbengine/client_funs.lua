@@ -325,7 +325,6 @@ function _M:Client_setSpaceData(spaceID, key, value)
 		
 		KBEngine.Event.fire("onSetSpaceData", spaceID, key, value)
 end
-
 function _M:Client_delSpaceData(spaceID, key)
 		KBEngine.INFO_MSG("KBEngineApp::Client_delSpaceData: spaceID(" .. spaceID .. "), key(" .. key .. ")!")
 		KBEngine.app.spacedata[key]=nil
@@ -754,8 +753,10 @@ function _M:Client_onImportClientEntityDef(stream)
 				local setmethod = "null"
 				if Class ~=nil then
 					setmethod = Class["set_" .. name] or "null"
-					if setmethod=="null" then
-						KBEngine.WARNING_MSG("========not method============".."set_" .. name)						
+					if setmethod == "null" then
+						KBEngine.WARNING_MSG("========not method============" .. scriptmodule_name .. ":set_" .. name)
+					else
+						KBEngine.INFO_MSG("========method============" .. scriptmodule_name .. ":set_" .. name)
 					end
 				end
 				
@@ -849,8 +850,15 @@ function _M:Client_onImportClientEntityDef(stream)
 				local name = infos[3]
 				local defaultValStr = infos[4]
 				local utype = infos[5]
+				if utype == nil then
+					utype = 'none'
+				else
+					utype = 'table'
+				end
+				KBEngine.INFO_MSG("currModuleDefs.propertys: properUtype(" .. properUtype .. ")  aliasID(" .. aliasID .. ")  name(" .. name .. ")  defaultValStr(" .. defaultValStr .. ")  utype(" .. utype .. ")");
 
-				if defmethod~=nil then
+				if defmethod~=nil and utype['parseDefaultValStr'] ~= nil then
+					KBEngine.INFO_MSG("parseDefaultValStr")
 					defmethod[name] = utype:parseDefaultValStr(defaultValStr)
 				end
 

@@ -6,12 +6,12 @@ _M.MESSAGE_ID_LENGTH = 2
 _M.MESSAGE_LENGTH_LENGTH = 2
 _M.CLIENT_NO_FLOAT = 0
 _M.KBE_FLT_MAX=3.402823466e+38
-_M.ENTITYCALL_TYPE_CELL = 0
-_M.ENTITYCALL_TYPE_BASE = 1
 _M.messages = {}
 _M.moduledefs={}
 _M.clientmessages={}
 _M.bufferedCreateEntityMessage={}
+_M.ENTITYCALL_TYPE_CELL = 0
+_M.ENTITYCALL_TYPE_BASE = 1
 
 function _M.messagesInit()
 		 _M.messages={} 	
@@ -21,6 +21,7 @@ function _M.messagesInit()
 		 _M.messages["Baseapp_importClientMessages"]=KBEngine.Message.new(207,"importClientMessages", 0, 0,{},nil)
 		 _M.messages["Baseapp_importClientEntityDef"]=KBEngine.Message.new(208,"importClientEntityDef", 0, 0,{},nil)
 		 _M.messages["onImportClientMessages"]=KBEngine.Message.new(518,"onImportClientMessages", 0, 0,{},nil)
+		 --Baseapp_logoutBaseapp 未处理
 end
 
 --默认参数
@@ -71,7 +72,7 @@ function _M:clearEntities(isAll)
 			end
 			KBEngine.app.entities = {}
 		end
-end		
+end
 
 function _M:reset()
 		if self.entities ~= nil then
@@ -94,7 +95,7 @@ function _M:reset()
 		self.serverScriptVersion = ""
 		self.serverProtocolMD5 = ""
 		self.serverEntityDefMD5 = ""
-		self.clientVersion = "0.9.12"
+		self.clientVersion = "2.3.5"
 		self.clientScriptVersion = "0.1.0"
 		
 		--player的相关信息
@@ -281,14 +282,23 @@ function _M:onRemoteMethodCall_(eid, stream)
 			return
 		end
 		
+		local componentPropertyUType = 0;
 		local methodUtype = 0
 		if KBEngine.moduledefs[entity.className].useMethodDescrAlias then
+			componentPropertyUType = stream:readUint8()
 			methodUtype = stream:readUint8()
 		else
+			componentPropertyUType = stream:readUint16()
 			methodUtype = stream:readUint16()
 		end
 		
-		local methoddata = KBEngine.moduledefs[entity.className].methods[methodUtype]
+		local methoddata = nil
+		if componentPropertyUType == 0 then
+			methoddata = KBEngine.moduledefs[entity.className].methods[methodUtype]
+		else
+			local pComponentPropertyDescription = KBEngine.moduledefs[entity.className].propertys[componentPropertyUType]
+			return
+		end
 		local args = {}
 		local argsdata = methoddata[4]
 		for i=1,#argsdata do
@@ -383,7 +393,7 @@ function _M:onImportClientMessagesCompleted()
 			if not KBEngine.app.serverErrorsDescrImported then
 				KBEngine.INFO_MSG("KBEngine::onImportClientMessagesCompleted(): send importServerErrorsDescr!")
 				KBEngine.app.serverErrorsDescrImported = true
-				local bundle = KBEngine.Bundle.new()								
+				local bundle = KBEngine.Bundle.new()
 				bundle:newMessage(KBEngine.messages.Loginapp_importServerErrorsDescr)
 				bundle:send()
 			end
