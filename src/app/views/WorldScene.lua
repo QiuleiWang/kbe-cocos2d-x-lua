@@ -134,6 +134,7 @@ function _M:set_modelScale(entity, v)
     if ae ==nil then
       return
     end
+    v = v ~= nil and v or 1
     ae:setScale(v)
 end
 
@@ -159,8 +160,10 @@ function _M:set_moveSpeed(entity, v)
     local ae = self.entities[entity.id]
     if ae == nil then
       return
-    end   
-    ae:setSpeed(v / 10.0)
+    end
+    if v ~= nil then
+        ae:setSpeed(v / 10.0)
+    end
 end
 
 function _M:addSpaceGeometryMapping(resPath)

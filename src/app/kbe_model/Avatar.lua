@@ -49,6 +49,17 @@ function _M:onEnterWorld()
 		_M.super.onEnterWorld(self)		
 end
 
+function _M:dialog_addOption(arg1, arg2, arg3, arg4)
+
+end
+
+function _M:dialog_close()
+
+end
+
+function _M:dialog_setText(arg1, arg2, arg3, arg4)
+
+end
 
 return _M
 
