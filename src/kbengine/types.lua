@@ -146,8 +146,8 @@ function Uint64:toString()
 end
 
 function Uint64:isSameType(v)
-		
-		return v.__cname=="Uint64"
+
+		return type(v)=="number"
 end
 
 local Int8=class("Int8",Number)

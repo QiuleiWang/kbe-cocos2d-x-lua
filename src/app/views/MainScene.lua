@@ -30,9 +30,14 @@ function _M:onLoginBaseapp()
 end
 
 function _M:onReqAvatarList(avatars)
-		for i=1,#avatars.values do
-			local avator=avatars.values[i]
-			print("_M:onReqAvatarList:",avator.name,avator.dbid,avator.level)
+		if #avatars.values > 0 then
+			for i=1,#avatars.values do
+				local avator=avatars.values[i]
+				print("_M:onReqAvatarList:",avator.name,avator.dbid,avator.level)
+			end
+		else
+			KBEngine.app.player():reqCreateAvatar(2,"test999")
+			return
 		end
 		KBEngine.app.player():selectAvatarGame(avatars.values[1].dbid)
 		WorldScene.new():showWithScene()
@@ -153,7 +158,7 @@ function _M:onCreate()
 		local function loginBt(sender)
 			local name=self.usernamebox:getText()
 			local password=self.passwordbox:getText()
-			KBEngine.Event.fire("login",name,password, "kbengine_cocos2d_js_demo")
+			KBEngine.Event.fire("login",name,password, "kbengine_cocos2d_lua_demo")
 		end
 		local loginbt=UIButton.newButton("res/ui/btn_up.png",loginBt)
 		loginbt:setTitle("Login")

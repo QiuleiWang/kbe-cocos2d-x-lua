@@ -11,9 +11,10 @@ end
 function _M:newMessage(message)
 		self:fini(false)
 		self.message = message
+		KBEngine.INFO_MSG("newMessage id:" .. message.id .. " name:" .. message.name )
 		self.numMessage =self.numMessage+1
 		if self.message.length == -1 then
-			self.messageLengthBuffer =KBEngine.MemoryStream.new()		
+			self.messageLengthBuffer =KBEngine.MemoryStream.new()
 		end
 		self:writeUint16(message.id)
 		if self.messageLengthBuffer then

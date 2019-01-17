@@ -91,16 +91,16 @@ function _M:baseCall(...)
 			KBEngine.ERROR_MSG("KBEngine.Entity::baseCall: The server did not find the def_method(" ..self.className .. "." .. arguments[1] .. ")!");
 			return;
 		end
-		
+
 		local methodID = method[1]
 		local args1 = method[4]
-		dump(arguments)
 		if #arguments- 1 ~= #args1 then
 			KBEngine.ERROR_MSG("KBEngine.Entity::baseCall: args(" ..#arguments - 1 .. "!= " ..#args1.. ") size is error!");  
 			return;
 		end
 		print("self.base:newCall")
 		self.base:newCall();
+		self.base.bundle:writeUint16(0)
 		self.base.bundle:writeUint16(methodID)
 		
 		for i=1,#args1 do
@@ -147,6 +147,7 @@ function _M:cellCall(...)
 		end
 		
 		self.cell:newCall();
+		self.cell.bundle:writeUint16(0)
 		self.cell.bundle:writeUint16(methodID)
 
 		for i=1,#args1 do
@@ -215,9 +216,25 @@ function _M:onUpdateVolatileData()
 		
 end
 
+function _M:set_own_val(old)
+
+end
+
+function _M:set_entityNO()
+
+end
+
 function _M:set_direction(old)
 		KBEngine.DEBUG_MSG(self.className .. "::set_direction: " .. old.x,old.y,old.z)
 		KBEngine.Event.fire("set_direction", self)
+end
+
+function _M:set_spaceID()
+	
+end
+
+function _M:set_lastSelCharacter()
+
 end
 
 

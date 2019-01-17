@@ -17,11 +17,14 @@ function _M:onCreateAvatarResult(retcode, info)
 		KBEngine.Event.fire("onCreateAvatarResult", retcode, info, self.avatars)
 end
 
+function _M:onRemoveAvatar(found)
+	KBEngine.Event.fire("onRemoveAvatar", found)
+end
+
 function _M:onReqAvatarList(infos)
 		self.avatars = infos;
 		KBEngine.Event.fire("onReqAvatarList", self.avatars)
 end
-
 
 function _M:reqCreateAvatar(roleType, name)
 		self:baseCall("reqCreateAvatar", roleType, name)
@@ -32,8 +35,3 @@ function _M:selectAvatarGame(dbid)
 end
 
 return _M
-
-
-
-
-
