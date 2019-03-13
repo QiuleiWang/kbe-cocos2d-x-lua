@@ -125,7 +125,7 @@ function _M:_onConnected()
 	if self.connectTimeTickScheduler then timer.unTimer(self.connectTimeTickScheduler) end
 
 	local _tick = function()
-		while true do
+		while self.isConnected do
 			-- if use "*l" pattern, some buffer will be discarded, why?
 			local body, status, partial = self.tcp:receive("*a")	-- read the package body
     	    if status == STATUS_CLOSED or status == STATUS_NOT_CONNECTED then
